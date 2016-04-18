@@ -1,0 +1,72 @@
+$(document).ready(
+	function() {
+    if (!window.console) window.console = {}; //checking if the console is here (not there in mobile browsers)
+    if (!window.console.log) window.console.log = function(){}; //else creating empty lists and function to do nothing 
+
+    $("#loginform").live("submit", 
+    	function() {
+		newLogin($(this));
+		return false;
+    	});
+
+    $("#loginform").live("keypress", function(e) {
+	if (e.keyCode == 13) {
+	    newLogin($(this));
+	    return false;
+	}
+    });
+});
+
+function newRegister(){
+    window.location.replace("register");
+}
+
+function newLogin(form) {
+    var log_info = form.formToDict();
+
+    var disabled = form.find("input[type=submit]");
+    disabled.disable();
+    //disable submit button
+    callback_NM = function(response){
+        console.log(getCookie("id"))
+    }
+    $.postJSON("/login",log_info, callback_NM);
+}
+
+function getCookie(name) {
+    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+    return r ? r[1] : undefined;
+}
+
+jQuery.postJSON = function(url, args, callback) {
+    $.ajax({url: url, data: $.param(args), dataType: "text", type: "POST",
+           success: function(response) {
+    if (callback) callback(eval("(" + response + ")"));
+    }, error: function(response) {
+    console.log("ERROR:", response)
+    }});
+};
+
+jQuery.fn.formToDict = function() {
+    var fields = this.serializeArray();
+    var json = {}
+    for (var i = 0; i < fields.length; i++) {
+    json[fields[i].name] = fields[i].value;
+    }
+    if (json.next) delete json.next;
+    return json;
+};
+
+jQuery.fn.disable = function() {
+    this.enable(false);
+    return this;
+};
+
+jQuery.fn.enable = function(opt_enable) {
+    if (arguments.length && !opt_enable) {
+        this.attr("disabled", "disabled");
+    } else {
+        this.removeAttr("disabled");
+    }
+    return this;
+};
