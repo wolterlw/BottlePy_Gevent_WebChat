@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import pdb
 import bottle
 import json
 from bottle import run, get, post, redirect, route, request, static_file, template
@@ -8,14 +8,16 @@ from bottle.ext import sqlite
 cache_size = 200
 cache = []
 
-@route('/', method='POST')
-def do_login(db):
-	username = request.POST.get('username')
-	password = request.POST.get('password')
-	query = 'SELECT id FROM users WHERE username=\'%s\' and password=\'%s\';' % (username,password)
-	print query
-	row = db.execute(query).fetchone()
-	print row
+@route('/new/<hi>')
+def do_login(db,hi):
+	# username = request.POST.get('username')
+	# password = request.POST.get('password')
+	# query = 'SELECT id FROM users WHERE username=\'%s\' and password=\'%s\';' % (username,password)
+	# print query
+	# row = db.execute(query).fetchone()
+	# print row
+	pdb.set_trace()
+	print yo
 	return 0
 
 app = bottle.app()

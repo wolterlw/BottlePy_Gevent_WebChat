@@ -5,13 +5,15 @@ password TEXT);
 
 CREATE TABLE messages (
 message_id INTEGER,
-dialogue_id INTEGER,
+from_id INTEGER,
+to_id INTEGER,
 message_body TEXT,
 time DATETIME);
 
 CREATE TABLE dialogues ( --relation
 from_id INTEGER,
 to_id INTEGER,
+dialogue_id INTEGER, --shlould be a unique the same for the pair
 num_messages INTEGER,
 last_updated DATETIME); --days ago
 --datetime in format yyyy-MM-dd HH:mm:ss

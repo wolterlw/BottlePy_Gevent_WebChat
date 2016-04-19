@@ -2,6 +2,8 @@
 
 # TODO LIST
 # 
+# use dialogue_id to save one batabase search every time
+#
 # create templates for:
 # user_profile_template (with availible dialogues there), dialogue template
 # 
@@ -24,7 +26,8 @@ from bottle.ext import sqlite
 host_name = 'localhost'
 port_num = 8080
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
-
+num_messages = 20
+d_dialogues = {}
 
 #USED TO GET STATIC FILES LIKE JAVASCRIPT AND CSS
 @route('/static/:filename', name='static')
@@ -51,9 +54,13 @@ def homepage(user_id,db):
 #NO TEMPLATE
 @route('dialogues/<to_id :int>')
 def dialogue(to_id,db,request):
-	messages = []
-	#somehow get some number of last messages from the database and return them in a template
-	#create this template
+	from_id = int(request.cookies.get('id','0'))
+	dialogue_id = get_dialogue(from_id,to_id)
+	d_dialogues[dialogue_id] = Event() #new message event for current dialogue
+	#TODO: implement message polling from database 
+	# ('SELECT message_id,message_body FROM messages WHERE from_id={0} and to_id={1} LIMIT {3}')
+	#and sending it to the app
+	#TODO: create this template
 	return template('dialogue',dialogue_id=dialogue_id)
 
 @route('/register',method='GET')
@@ -94,15 +101,15 @@ def do_login(db):
 	else: return HTTPError(404,'User not found')     
 
 
-@route('/a/message/new', method='POST')
-def message_new(db):
+@route('/dialogues/<to_id :int>/message/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
+def message_new(db,to_id):
 	#FIND OUT DIALOGUE INFORMATION SOMEHOW AND BASED ON THAT DO FURTHER 
-	global new_message_event 
-	#find out the dialogue id
-	#later change for something more cryptic 
-	dialogue_id = int(request.url[d_id_pos:])
-	#find username
 	from_id = int(request.cookies.get('id','0'))
+	global d_dialogues
+	new_message_event = d_dialogues[get_dialogue(from_id,to_id)]
+
+	#TODO: change for something more cryptic 
+	#find username
 	from_name = db.execute('SELECT userfrom_name FROM users WHERE id=%d' % from_id).fetchone()[0]
 
 	msg = create_message(
@@ -114,15 +121,16 @@ def message_new(db):
 	#NOT YET CHECKED THIS ONE
 
 	#ASYNCHRONOUS HANDLING
-	#LOOK UP FOR POSSIBILITY TO UNBLOCK ONLY NEEDED CLIENT NOT ALL OF THEM
 	new_message_event.set()
 	new_message_event.clear()
 	return msg
 
 # RECREATE THIS ONE FOR THE NEW SCHEME
-@route('/a/message/updates', method='POST')
+@route('/dialogues/<to_id :int>/message/update', method='POST')
 def message_updates(session):
-	global new_message_event
+	from_id = int(request.cookies.get('id','0'))
+	global d_dialogues
+	new_message_event = d_dialogues[get_dialogue(from_id,to_id)]
 
 	# DEAL WITH CODE HERE 
 	# HAVE NO SESSION IN HERE YET 
@@ -149,6 +157,8 @@ def create_message(dialogue_id, datetime ,from_name, body):
 	data['html'] = template('message',message_from=(data,from_name))
 	return data
 
+def get_dialogue(from_id,to_id):
+	return db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
 
 app = bottle.app()
 app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
