@@ -9,7 +9,6 @@ from_id INTEGER,
 to_id INTEGER,
 message_body TEXT,
 time DATETIME);
-
 CREATE TABLE dialogues ( --relation
 from_id INTEGER,
 to_id INTEGER,
