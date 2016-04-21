@@ -32,7 +32,7 @@
 #page-content-wrapper {
     width: 100%;
     position: absolute;
-    padding: 15px;
+    padding: 0;
 }
 
 #wrapper.toggled #page-content-wrapper {
@@ -41,6 +41,9 @@
 }
 
 /* Sidebar Styles */
+.navbar-header {
+	padding-left: 10px;
+}
 
 .sidebar-nav {
     position: absolute;
@@ -110,7 +113,7 @@
     }
 
     #page-content-wrapper {
-        padding: 20px;
+        padding: 0;
         position: relative;
     }
 
