@@ -45,12 +45,14 @@
 	padding-left: 10px;
 }
 #menu-toggle {
+    /*prefixes*/
     transition: transform 0.05s ease-out 0.2s;
 }
 #menu-toggle:hover {
     cursor: pointer;    
 	border-radius: 4px;
     background: rgba(0,0,0,0.1);
+    /*prefixes*/
     transform: rotate(90deg);
 }
 
@@ -103,31 +105,4 @@
 .user-photo {
 	margin: 20px auto;
 	border-radius: 50%;
-}
-@media(min-width:768px) {
-    #wrapper {
-        padding-left: 250px;
-    }
-
-    #wrapper.toggled {
-        padding-left: 0;
-    }
-
-    #sidebar-wrapper {
-        width: 250px;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        width: 0;
-    }
-
-    #page-content-wrapper {
-        padding: 0;
-        position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
 }
