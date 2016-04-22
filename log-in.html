@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log in</title>
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="css/sidebar.css" type="text/css" rel="stylesheet">
+    <link href="css/global.css" type="text/css" rel="stylesheet">
+    <link href="css/forms.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+            	<img class="img-responsive user-photo" src="http://placehold.it/150x150">
+                <li class="sidebar-brand">
+                    [Username]
+                </li>
+                <li>
+                    <a href="#">Contacts</a>
+                </li>
+                <li>
+                    <a href="#">Messages</a>
+                </li>
+                <li>
+                    <a href="#">Settings</a>
+                </li>
+                <li>
+                    <a href="#">Log out</a>
+                </li>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+		    <nav class="navbar navbar-default">
+			 	<div class="container-fluid">
+			    	<div class="navbar-header">
+	            		<h3 id="menu-toggle"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> inTouch</h3>
+			    	</div>
+			  	</div>
+			</nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-signin">
+                            <h2 class="form-signin-heading">Log in</h2>
+                            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button class="btn btn-lg btn-default btn-block">Sign up</button>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-lg btn-primary btn-block">Log in</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
+</body>
+</html>
