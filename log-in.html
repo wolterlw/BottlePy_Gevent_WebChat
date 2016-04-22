@@ -45,29 +45,23 @@
                     <div class="col-lg-12">
                         <form class="form-signin">
                             <h2 class="form-signin-heading">Log in</h2>
-                            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+                            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
                             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
                             <div class="row">
                                 <div class="col-md-6">
                                     <button class="btn btn-lg btn-primary btn-block">Log in</button>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-lg btn-default btn-block">Sign up</button>
+                                    <button id="signUpBtn" class="btn btn-lg btn-default btn-block">Sign up</button>
                                 </div>
                             </div>
                         </form>
                         <form class="form-signup">
                             <h2 class="form-signin-heading">Sign up</h2>
-                            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
-                            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
+                            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required>
                             <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn btn-lg btn-primary btn-block">Log in</button>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-lg btn-default btn-block">Sign up</button>
-                                </div>
+                            <button class="btn btn-lg btn-success btn-block">Sign up</button>
                             </div>
                         </form>
                     </div>
@@ -80,10 +74,18 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/angular.min.js"></script>
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+    $(document).ready(function() {
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+        $("#signUpBtn").click(function(e) {
+            e.preventDefault();
+            $(".form-signin").remove();
+            $(".form-signup").fadeIn();
+        });
     });
+
     </script>
 </body>
 </html>
