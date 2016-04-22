@@ -43,12 +43,15 @@
 /* Sidebar Styles */
 .navbar-header {
 	padding-left: 10px;
-	cursor: pointer;
 }
-
-h3#menu-toggle:hover span {
+#menu-toggle {
+    transition: transform 0.05s ease-out 0.2s;
+}
+#menu-toggle:hover {
+    cursor: pointer;    
 	border-radius: 4px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.1);
+    transform: rotate(90deg);
 }
 
 .sidebar-nav {
