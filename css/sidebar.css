@@ -43,6 +43,12 @@
 /* Sidebar Styles */
 .navbar-header {
 	padding-left: 10px;
+	cursor: pointer;
+}
+
+h3#menu-toggle:hover span {
+	border-radius: 4px;
+    background: rgba(0,0,0,0.2);
 }
 
 .sidebar-nav {
