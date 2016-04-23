@@ -9,7 +9,7 @@ from_id INTEGER,
 to_id INTEGER,
 message_body TEXT,
 time DATETIME);
-CREATE TABLE dialogues ( --relation
+CREATE TABLE dialogues ( --relation!
 from_id INTEGER,
 to_id INTEGER,
 dialogue_id INTEGER, --shlould be a unique the same for the pair

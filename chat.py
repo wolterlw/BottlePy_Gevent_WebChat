@@ -22,13 +22,13 @@ from bottle import run, route, get, post, static_file, template, request, respon
 from bottle.ext import sqlite
 
 host_name = 'localhost'
-port_num = 8080
+port_num = 8089
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
 num_messages = 20
 d_dialogues = {}
 
 #USED TO GET STATIC FILES LIKE JAVASCRIPT AND CSS
-@route('/static/:filename', name='static')
+@route('/static/<filename>/', name='static')
 def static_files(filename):
 	return static_file(filename, root='./static/')
 
@@ -83,20 +83,24 @@ def do_register(db):
 
 	else: return HTTPError(409,'Username already exists')
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
+
 #NO TEMPLATE 
-@route('/users/<user_id :int>/')
-def homepage(user_id,db):
-	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
+@route('/users/<u_id:int>/', method='GET')
+def user_homepage(u_id,db):
+	username = db.execute('SELECT username FROM users WHERE id={}'.format(u_id)).fetchone()[0]
 	#later add user-specific content to the template
 	#with custom dialogues and stuff
+	#TODO: check for appropriate cookies
 	return template('homepage',name=username) #create a template that displays users username
 
-@route('/users/<user_id :int>/logout/', method='POST')
-def logout(user_id):
+# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
+
+@route('/users/logout/<u_id:int>/', method='POST')
+def logout(u_id):
 	response.set.cookie('id','None')
 	#erase cookie from browser or change to something
- 
+ 	#TODO: check whether all dialogues are closed
+
 #NO TEMPLATE
 @route('dialogues/<dialogue_id :int>/')
 def dialogue(dialogue_id,db,request):
