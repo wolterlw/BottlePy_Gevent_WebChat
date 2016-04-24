@@ -4,3 +4,11 @@
 .no-margin {
 	margin: 0;
 }
+.msg-holder {
+	padding: 8px;
+	border-radius: 5px;
+}
+.msg-holder:hover {
+	cursor: pointer;
+	background-color: #e3e3e3;
+}
