@@ -12,3 +12,6 @@
 	cursor: pointer;
 	background-color: #e3e3e3;
 }
+.warning {
+	background-color: #f0ad4e;
+}
