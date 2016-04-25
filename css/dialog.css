@@ -14,3 +14,16 @@ html {
   background-color: #f8f8f8;
   border-top: 2px solid #e7e7e7;
 }
+.btn-send {
+  margin: 0 15px;
+}
+.send-form {
+  margin: 15px;
+  margin-left: 0;
+}
+.msg-holder {
+  margin: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #e3e3e3;
+}
