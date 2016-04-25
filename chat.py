@@ -40,7 +40,7 @@ def index():
 	if u_id: 
 		redirect('/users/{}'.format(u_id))
 	else:
-		redirect('/static/login')
+		redirect('/static/login/')
 
 # @route('/login')
 # def do_login():    
@@ -77,34 +77,64 @@ def do_register(db):
 	present = db.execute('SELECT id FROM users WHERE username=\'%s\';' % username).fetchone()
 
 	if present is None:
-		new_id = int(db.execute('SELECT MAX(id) FROM users').fetchone()[0])+1
+		new_id = int(db.execute('SELECT MAX(id) FROM users;').fetchone()[0])+1
 		db.execute('INSERT INTO users VALUES(\'%d\',\'%s\',\'%s\');' % (new_id,username,password))
 		response.set_cookie('id',str(new_id))
 
 	else: return HTTPError(409,'Username already exists')
 
+#==================================USER SECTION=======================================================
 
 #NO TEMPLATE 
-@route('/users/<u_id:int>/', method='GET')
-def user_homepage(u_id,db):
-	username = db.execute('SELECT username FROM users WHERE id={}'.format(u_id)).fetchone()[0]
+@route('/users/<user_id:int>/', method='GET')
+def user_homepage(user_id,db):
+	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
 	#later add user-specific content to the template
 	#with custom dialogues and stuff
 	#TODO: check for appropriate cookies
 	return template('homepage',name=username) #create a template that displays users username
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
-@route('/users/logout/<u_id:int>/', method='POST')
-def logout(u_id):
-	response.set.cookie('id','None')
-	#erase cookie from browser or change to something
+@route('/users/logout/<user_id:int>/', method='POST')
+def logout(user_id):
+	response.delete_cookie('id')
  	#TODO: check whether all dialogues are closed
 
+# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
+#adding separate methods for user search and for creating new dialogue
+
+@route('/users/search/', method='POST')
+def search_user(db):
+	username = request.json['username']
+	userid = db.execute('SELECT id FROM users WHERE username=?;', str(username)).fetchone()
+	if userid:
+		return { 'id': int(userid[0]) }
+	else:
+		return HTTPError(404,'no such user')
+
+
+#==================================DIALOGUE SECTION=======================================================
+
+@route('/dialogues/create_dialogue/<to_id:int>/')
+def create_dialogue(to_id,db):
+	from_id = int( request.cookies.get('id','0') )
+	#checking whether this dialogue already exists
+	dialogue_id = get_dialogue(from_id,to_id)
+	if dialogue_id:
+		return HTTPError(409, 'dialogue already exists')
+	else:
+		dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
+		db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
+		db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
+		return {'dialogue_id': dialogue_id}
+
+#TODO: add a method to delete a dialogue
+
+
 #NO TEMPLATE
-@route('dialogues/<dialogue_id :int>/')
-def dialogue(dialogue_id,db,request):
-	from_id = int(request.cookies.get('id','0'))
+@route('/dialogues/<dialogue_id:int>/')
+def dialogue(dialogue_id,db):
+	from_id = int( request.cookies.get('id','0') )
 
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
@@ -115,29 +145,31 @@ def dialogue(dialogue_id,db,request):
 	return template('dialogue',dialogue_id=dialogue_id)
 
 
-@route('/dialogues/<dialogue_id :int>/messages/new/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
+@route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
 def message_new(db,dialogue_id):
 	#FIND OUT DIALOGUE INFORMATION SOMEHOW AND BASED ON THAT DO FURTHER 
+	pdb.set_trace()
 	from_id = int(request.cookies.get('id','0'))
 	global d_dialogues
 	try:
-		new_message_event = d_dialogues[get_dialogue(from_id,to_id)]
+		new_message_event = d_dialogues[dialogue_id]
 	except :
 		return HTTPError(404,"dialogue not opened")
 	else:
 		pass
 	#TODO: change for something more cryptic 
 	#find username
-	from_name = db.execute('SELECT userfrom_name FROM users WHERE id=?',from_id).fetchone()[0]
+	from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
 
 	msg = create_message(
 		dialogue_id,
-		request.json('datetime'),
+		request.json['datetime'],  #use request header date-time later 
 		from_name, 
-		request.json('body')
+		request.json['body']
 		)
 	
 	db.execute('INSERT INTO messages (message_id,dialogue_id,message_body,time) VALUES({m_id}{d_id}{body}{time});'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['dody'],time=msg['datetime']))
+	db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=?',msg['dialogue_id'])
 	#NOT YET CHECKED THIS ONE
 
 	#ASYNCHRONOUS HANDLING
@@ -177,8 +209,6 @@ def dialugue_close(db,d_id):
 
 
 
-
-#NOT CHECKED
 def create_message(dialogue_id, datetime ,from_name, body):
 	#every message gets a unique id with uuid
 	data = {'message_id': str(uuid.uuid4()), 'dialogue_id': dialogue_id,'datetime': datetime, 'body': body}
