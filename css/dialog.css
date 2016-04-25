@@ -5,6 +5,15 @@ html {
 #page-content-wrapper {
   /* Margin bottom by footer height */
   margin-bottom: 80px;
+  margin-top: 80px;
+}
+.navbar-fixed-top {
+  transition: left 0.5s ease;
+}
+#wrapper.toggled .navbar-fixed-top {
+  position: fixed;
+  top: 0;
+  left: 250px;
 }
 .footer {
   position: fixed;
