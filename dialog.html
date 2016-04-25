@@ -144,6 +144,10 @@
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+        $(".footer").slideToggle();
+        //bad code down here, find more efficient approach
+        $("html").css("overflow-x", "hidden");
+        $("#sidebar-wrapper").css("overflow-x", "hidden");
     });
     </script>
 </body>
