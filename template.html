@@ -60,6 +60,9 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
         $("#menu-toggle").toggleClass("rotated");
+        //bad code down here, find more efficient approach
+        $("html").css("overflow-x", "hidden");
+        $("#sidebar-wrapper").css("overflow-x", "hidden");
     });
     </script>
 </body>

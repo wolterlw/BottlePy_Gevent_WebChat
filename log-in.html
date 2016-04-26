@@ -80,8 +80,11 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
             $("#menu-toggle").toggleClass("rotated");
+            //bad code down here, find more efficient approach
+            $("html").css("overflow-x", "hidden");
+            $("#sidebar-wrapper").css("overflow-x", "hidden");
         });
-        
+
         $("#signUpBtn").click(function(e) {
             e.preventDefault();
             $(".form-signin").remove();
@@ -89,6 +92,7 @@
         });
 
         $("#menu-toggle").fadeOut(0);
+
     });
     </script>
 </body>
