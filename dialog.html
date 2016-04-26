@@ -146,6 +146,7 @@
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+        $("#menu-toggle").toggleClass("rotated");
         $(".footer").slideToggle();
         //bad code down here, find more efficient approach
         $("html").css("overflow-x", "hidden");
