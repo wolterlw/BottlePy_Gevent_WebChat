@@ -55,6 +55,10 @@
     /*prefixes*/
     transform: rotate(90deg);
 }
+.rotated {
+    /*prefixes*/
+    transform: rotate(90deg);
+}
 
 .sidebar-nav {
     position: absolute;
