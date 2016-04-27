@@ -22,7 +22,7 @@ from bottle import run, route, get, post, static_file, template, request, respon
 from bottle.ext import sqlite
 
 host_name = 'localhost'
-port_num = 8089
+port_num = 8080
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
 num_messages = 20
 d_dialogues = {}
@@ -36,7 +36,7 @@ def static_files(filename):
 @route('/')
 def index():
 	pdb.set_trace()
-	u_id = int(request.cookies.get('id','0'))
+	u_id = int(request.get_cookie('id'))
 	if u_id: 
 		redirect('/users/{}'.format(u_id))
 	else:
@@ -100,13 +100,13 @@ def logout(user_id):
 	response.delete_cookie('id')
  	#TODO: check whether all dialogues are closed
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 #adding separate methods for user search and for creating new dialogue
 
 @route('/users/search/', method='POST')
 def search_user(db):
+	# pdb.set_trace()
 	username = request.json['username']
-	userid = db.execute('SELECT id FROM users WHERE username=?;', str(username)).fetchone()
+	userid = db.execute('SELECT id FROM users WHERE username=?;', (username,) ).fetchone()
 	if userid:
 		return { 'id': int(userid[0]) }
 	else:
@@ -115,11 +115,12 @@ def search_user(db):
 
 #==================================DIALOGUE SECTION=======================================================
 
-@route('/dialogues/create_dialogue/<to_id:int>/')
+@route('/dialogues/create_dialogue/<to_id:int>/', method='POST')
 def create_dialogue(to_id,db):
-	from_id = int( request.cookies.get('id','0') )
+	pdb.set_trace()
+	from_id = int( request.get_cookie('id') )
 	#checking whether this dialogue already exists
-	dialogue_id = get_dialogue(from_id,to_id)
+	dialogue_id = get_dialogue(from_id,to_id,db)
 	if dialogue_id:
 		return HTTPError(409, 'dialogue already exists')
 	else:
@@ -130,26 +131,31 @@ def create_dialogue(to_id,db):
 
 #TODO: add a method to delete a dialogue
 
+# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
 #NO TEMPLATE
 @route('/dialogues/<dialogue_id:int>/')
 def dialogue(dialogue_id,db):
-	from_id = int( request.cookies.get('id','0') )
+	from_id = int( request.get_cookie('id') )
 
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
+
 	#TODO: implement message polling from database 
+	messages = None
 	# ('SELECT message_id,message_body FROM messages WHERE from_id={0} and to_id={1} LIMIT {3}')
 	#and sending it to the app
 	#TODO: create this template
-	return template('dialogue',dialogue_id=dialogue_id)
 
+	# return template('dialogue',dialogue_id=dialogue_id)
+	# do that with a GET request and fill 
+	return messages
 
 @route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
 def message_new(db,dialogue_id):
 	#FIND OUT DIALOGUE INFORMATION SOMEHOW AND BASED ON THAT DO FURTHER 
 	pdb.set_trace()
-	from_id = int(request.cookies.get('id','0'))
+	from_id = int(request.cookies.get('id'))
 	global d_dialogues
 	try:
 		new_message_event = d_dialogues[dialogue_id]
@@ -215,7 +221,7 @@ def create_message(dialogue_id, datetime ,from_name, body):
 	data['html'] = template('message',message_from=(data,from_name))
 	return data
 
-def get_dialogue(from_id,to_id):
+def get_dialogue(from_id,to_id,db):
 	return db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
 
 app = bottle.app()
