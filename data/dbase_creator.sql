@@ -5,10 +5,10 @@ password TEXT);
 
 CREATE TABLE messages (
 message_id INTEGER,
+dialogue_id INTEGER,
 from_id INTEGER,
-to_id INTEGER,
 message_body TEXT,
-time DATETIME);
+t_sent DATETIME);
 
 
 CREATE TABLE dialogues ( --relation!
@@ -27,6 +27,8 @@ INSERT INTO users (id,username,password) VALUES(3,'denbko_l','1234567');
 INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(1,2,0,0,'2016-04-25 18:45:00'); 
 INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(2,1,0,0,'2016-04-25 18:45:00'); 
 
+
+
 /*
 INSERT INTO dialogues (user1_id,user2_id) VALUES(0,1);
 INSERT INTO dialogues (user1_id,user2_id) VALUES(0,2);
@@ -37,4 +39,5 @@ INSERT INTO messages (from_id,to_id,message_body) VALUES(2,0,'Did U make Ur Math
 SELECT * FROM users;
 SELECT username, password FROM users WHERE id = 1;
 SELECT message_body FROM messages WHERE from_id = 0;
-SELECT message_body FROM messages WHERE from_id = 0*/
+SELECT message_body FROM messages WHERE from_id = 0
+*/

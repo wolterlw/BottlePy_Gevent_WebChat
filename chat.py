@@ -88,19 +88,19 @@ def do_register(db):
 #NO TEMPLATE 
 @route('/users/<user_id:int>/', method='GET')
 def user_homepage(user_id,db):
+	"""returns a Json {'username': 'dialogue_id'} """
 	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
-	#later add user-specific content to the template
-	#with custom dialogues and stuff
-	#TODO: check for appropriate cookies
-	return template('homepage',name=username) #create a template that displays users username
 
+	#TODO: check for appropriate cookies
+
+	dialogues = db.execute('SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;', (user_id,) ).fetchall()
+	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
 @route('/users/logout/<user_id:int>/', method='POST')
 def logout(user_id):
 	response.delete_cookie('id')
  	#TODO: check whether all dialogues are closed
 
-#adding separate methods for user search and for creating new dialogue
 
 @route('/users/search/', method='POST')
 def search_user(db):
@@ -134,27 +134,30 @@ def create_dialogue(to_id,db):
 # -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
 #NO TEMPLATE
-@route('/dialogues/<dialogue_id:int>/')
+@route('/dialogues/<dialogue_id:int>/init')
 def dialogue(dialogue_id,db):
-	from_id = int( request.get_cookie('id') )
+	pdb.set_trace()
+	#could possibly be problems with large messages 
+	#make limitations to single message size according to max response size
 
+	global num_messages
+	from_id = int( request.get_cookie('id') )
+	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
+	
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
 
-	#TODO: implement message polling from database 
-	messages = None
-	# ('SELECT message_id,message_body FROM messages WHERE from_id={0} and to_id={1} LIMIT {3}')
-	#and sending it to the app
-	#TODO: create this template
-
-	# return template('dialogue',dialogue_id=dialogue_id)
-	# do that with a GET request and fill 
-	return messages
+	messages = db.execute('SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY t_sent ASC LIMIT ?;', (dialogue_id,num_messages) ).fetchall()
+	if messages:
+		messages_json = ['{"datetime" : {0}, "from_id": {1}}, "body": {2}'.format(*message) for message in messages ]
+		#and sending it to the app
+		return { dialogue_id: messages_json }
+	else: return None #empty dialogue
 
 @route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
 def message_new(db,dialogue_id):
-	#FIND OUT DIALOGUE INFORMATION SOMEHOW AND BASED ON THAT DO FURTHER 
 	pdb.set_trace()
+
 	from_id = int(request.cookies.get('id'))
 	global d_dialogues
 	try:
@@ -162,53 +165,55 @@ def message_new(db,dialogue_id):
 	except :
 		return HTTPError(404,"dialogue not opened")
 	else:
-		pass
-	#TODO: change for something more cryptic 
-	#find username
-	from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
+		
+		#TODO: change for something more cryptic 
+		from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
 
-	msg = create_message(
-		dialogue_id,
-		request.json['datetime'],  #use request header date-time later 
-		from_name, 
-		request.json['body']
-		)
-	
-	db.execute('INSERT INTO messages (message_id,dialogue_id,message_body,time) VALUES({m_id}{d_id}{body}{time});'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['dody'],time=msg['datetime']))
-	db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=?',msg['dialogue_id'])
-	#NOT YET CHECKED THIS ONE
+		msg = create_message(
+			dialogue_id,
+			request.json['datetime'],  #use request header date-time later 
+			from_name, 
+			request.json['body']
+			)
+		
+		db.execute('INSERT INTO messages (message_id,dialogue_id,message_body,time) VALUES({m_id}{d_id}{body}{time});'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['dody'],time=msg['datetime']))
+		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
+		#NOT YET CHECKED THIS ONE
 
-	#ASYNCHRONOUS HANDLING
-	new_message_event.set()
-	new_message_event.clear()
-	#this one is a Json encoded string
-	return msg
+		#ASYNCHRONOUS HANDLING
+		new_message_event.set()
+		new_message_event.clear()
+		#this one is a Json encoded string
+		return msg
 
 # RECREATE THIS ONE FOR THE NEW SCHEME
+
 @route('/dialogues/<dialogue_id :int>/messages/update/', method='POST')
-def message_updates(session):
-	from_id = int(request.cookies.get('id','0'))
+def message_updates(session,db):
+	from_id = int(request.cookies.get('id'))
 	global d_dialogues
+
 	new_message_event = d_dialogues[get_dialogue(from_id,to_id)]
 
-	# DEAL WITH CODE HERE 
-	# HAVE NO SESSION IN HERE YET 
-	cursor = session.get('cursor')
-	if not cache or cursor == cache[-1]['id']:
-		 new_message_event.wait()
-	assert cursor != cache[-1]['id'], cursor
+	# DEAL WITH CODE HERE
+	if new_message_event:
+		new_message_event.wait()
+	else: return HTTPError(404,"dialogue not opened")
+
 	# USE SESSIONS LATER
-	try:
-		for index, m in enumerate(cache):
-		   if m['id'] == cursor:
-			   return {'messages': cache[index + 1:]}
-		return {'messages': cache}
-	finally:
-		if cache:
-			session['cursor'] = cache[-1]['id']
-		else:
-			session.pop('cursor', None)
+	# try:
+	# 	for index, m in enumerate(cache):
+	# 	   if m['id'] == cursor:
+	# 		   return {'messages': cache[index + 1:]}
+	# 	return {'messages': cache}
+	# finally:
+	# 	if cache:
+	# 		session['cursor'] = cache[-1]['id']
+	# 	else:
+	# 		session.pop('cursor', None)
 	
+
+
 @route('/dialogues/<dialogue_id :int>/close/',method='POST')
 def dialugue_close(db,d_id):
 	d_dialogues.pop(d_id)
