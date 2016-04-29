@@ -93,7 +93,9 @@ def user_homepage(user_id,db):
 
 	#TODO: check for appropriate cookies
 
-	dialogues = db.execute('SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;', (user_id,) ).fetchall()
+	dialogues = db.execute(
+	'SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;',
+	(user_id,) ).fetchall()
 	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
 @route('/users/logout/<user_id:int>/', method='POST')
@@ -131,16 +133,14 @@ def create_dialogue(to_id,db):
 
 #TODO: add a method to delete a dialogue
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
 #NO TEMPLATE
-@route('/dialogues/<dialogue_id:int>/init')
+@route('/dialogues/<dialogue_id:int>/init/', method='POST')
 def dialogue(dialogue_id,db):
-	pdb.set_trace()
-	#could possibly be problems with large messages 
-	#make limitations to single message size according to max response size
-
+	"""Intended to use already created dialogues"""	
+	# pdb.set_trace()
 	global num_messages
+
 	from_id = int( request.get_cookie('id') )
 	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
 	
@@ -149,37 +149,42 @@ def dialogue(dialogue_id,db):
 
 	messages = db.execute('SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY t_sent ASC LIMIT ?;', (dialogue_id,num_messages) ).fetchall()
 	if messages:
-		messages_json = ['{"datetime" : {0}, "from_id": {1}}, "body": {2}'.format(*message) for message in messages ]
+		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
 		return { dialogue_id: messages_json }
 	else: return None #empty dialogue
 
-@route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') #TODO: this one might actually not work for some reason, maybe because of the url wildcards
+# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
+
+@route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') 
 def message_new(db,dialogue_id):
-	pdb.set_trace()
+	# pdb.set_trace()
+	#could possibly be problems with large messages 
+	#make limitations to single message size according to max response size
 
 	from_id = int(request.cookies.get('id'))
 	global d_dialogues
 	try:
 		new_message_event = d_dialogues[dialogue_id]
-	except :
+	except Exception:
 		return HTTPError(404,"dialogue not opened")
 	else:
 		
 		#TODO: change for something more cryptic 
 		from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
 
-		msg = create_message(
-			dialogue_id,
-			request.json['datetime'],  #use request header date-time later 
-			from_name, 
-			request.json['body']
-			)
+		msg = {
+			'dialogue_id': dialogue_id,
+			'message_id': db.execute('SELECT MAX(message_id)+1 FROM messages').fetchone()[0],
+			'datetime' : request.json['datetime'],  #use request header date-time later 
+			'from': from_name, 
+			'body': request.json['body']
+			}
 		
-		db.execute('INSERT INTO messages (message_id,dialogue_id,message_body,time) VALUES({m_id}{d_id}{body}{time});'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['dody'],time=msg['datetime']))
+		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent) VALUES({m_id},{d_id},"{body}","{time}");'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['body'],time=msg['datetime']))
+
 		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
 		#NOT YET CHECKED THIS ONE
-
 		#ASYNCHRONOUS HANDLING
 		new_message_event.set()
 		new_message_event.clear()
@@ -212,19 +217,11 @@ def message_updates(session,db):
 	# 	else:
 	# 		session.pop('cursor', None)
 	
-
-
 @route('/dialogues/<dialogue_id :int>/close/',method='POST')
 def dialugue_close(db,d_id):
 	d_dialogues.pop(d_id)
 
 
-
-def create_message(dialogue_id, datetime ,from_name, body):
-	#every message gets a unique id with uuid
-	data = {'message_id': str(uuid.uuid4()), 'dialogue_id': dialogue_id,'datetime': datetime, 'body': body}
-	data['html'] = template('message',message_from=(data,from_name))
-	return data
 
 def get_dialogue(from_id,to_id,db):
 	return db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
