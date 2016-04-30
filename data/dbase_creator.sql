@@ -20,6 +20,11 @@ last_updated DATETIME); --days ago
 --datetime in format yyyy-MM-dd HH:mm:ss
 --after, when showing messages selecting them from 2 dialogues and sort by date
 
+#КОСТИЛІ 
+INSERT INTO users (id,username,password) VALUES(0,'','');
+INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(-1,-1,0,-1,'0000-00-00 00:00:00'); 
+INSERT INTO messages (message_id, dialogue_id, from_id, body, t_sent) VALUES(0,-1,-1,-1,'0000-00-00 00:00:00');
+
 INSERT INTO users (id,username,password) VALUES(1,'wolterlw','ILovePy');
 INSERT INTO users (id,username,password) VALUES(2,'eugene_r','ILoveJs');
 INSERT INTO users (id,username,password) VALUES(3,'denbko_l','1234567');
@@ -27,7 +32,6 @@ INSERT INTO users (id,username,password) VALUES(3,'denbko_l','1234567');
 INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(1,2,0,0,'2016-04-25 18:45:00'); 
 INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(2,1,0,0,'2016-04-25 18:45:00'); 
 
-INSERT INTO messages (message_id, dialogue_id, from_id, body, t_sent) VALUES(0,-1,-1,-1,'0000-00-00 00:00:00');
 
 /*
 INSERT INTO dialogues (user1_id,user2_id) VALUES(0,1);

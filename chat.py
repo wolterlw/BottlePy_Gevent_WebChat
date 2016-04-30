@@ -26,13 +26,15 @@ port_num = 8080
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
 num_messages = 20
 d_dialogues = {}
+message_cache = {} #messages sent to another part of a dialogue
 
-#USED TO GET STATIC FILES LIKE JAVASCRIPT AND CSS
+#Used to get all the HTML CSS and JavaScript data needed
+#Everything else mostly returns JSONs
+
 @route('/static/<filename>/', name='static')
 def static_files(filename):
 	return static_file(filename, root='./static/')
 
-#works just fine like that
 @route('/')
 def index():
 	pdb.set_trace()
@@ -42,13 +44,6 @@ def index():
 	else:
 		redirect('/static/login/')
 
-# @route('/login')
-# def do_login():    
-# 	return template('login')
-# deprecated use /static/login instead
-
-
-#seems to be working as well
 @route('/login/new/', method='POST')
 def do_login(db):
 	pdb.set_trace()
@@ -62,11 +57,6 @@ def do_login(db):
 		# do redirection to /users/userid in frontend
 	else: 
 		return HTTPError(404,'User not found')     
-
-# @route('/register')
-# def reg_page():
-# 	return template('register',login_text='Enter unique login')
-# deprecated use /static/register instead
 
 #seems to work just fine on regular cases
 @route('/register/new/', method='POST')
@@ -101,7 +91,7 @@ def user_homepage(user_id,db):
 @route('/users/logout/<user_id:int>/', method='POST')
 def logout(user_id):
 	response.delete_cookie('id')
- 	#TODO: check whether all dialogues are closed
+	#TODO: check whether all dialogues are closed
 
 
 @route('/users/search/', method='POST')
@@ -154,7 +144,6 @@ def dialogue(dialogue_id,db):
 		return { dialogue_id: messages_json }
 	else: return None #empty dialogue
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
 @route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') 
 def message_new(db,dialogue_id):
@@ -164,6 +153,8 @@ def message_new(db,dialogue_id):
 
 	from_id = int(request.cookies.get('id'))
 	global d_dialogues
+	global message_cache
+
 	try:
 		new_message_event = d_dialogues[dialogue_id]
 	except Exception:
@@ -184,27 +175,41 @@ def message_new(db,dialogue_id):
 		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent) VALUES({m_id},{d_id},"{body}","{time}");'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['body'],time=msg['datetime']))
 
 		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
-		#NOT YET CHECKED THIS ONE
 		#ASYNCHRONOUS HANDLING
+		message_cache[dialogue_id] = msg
 		new_message_event.set()
 		new_message_event.clear()
 		#this one is a Json encoded string
 		return msg
 
-# RECREATE THIS ONE FOR THE NEW SCHEME
+# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
-@route('/dialogues/<dialogue_id :int>/messages/update/', method='POST')
-def message_updates(session,db):
+# RECREATE THIS ONE FOR THE NEW SCHEME
+@route('/dialogues/<dialogue_id:int>/messages/update/', method='POST')
+def message_updates(dialogue_id,db):
+	pdb.set_trace()
 	from_id = int(request.cookies.get('id'))
 	global d_dialogues
-
-	new_message_event = d_dialogues[get_dialogue(from_id,to_id)]
+	global message_cache
+	new_message_event = d_dialogues[dialogue_id]
 
 	# DEAL WITH CODE HERE
 	if new_message_event:
 		new_message_event.wait()
-	else: return HTTPError(404,"dialogue not opened")
+		msg = message_cache.pop(dialogue_id)
+		return msg
+	else: 
+		return HTTPError(404,"dialogue not opened")
+	
 
+
+	#TODO:
+	# var 1) if new_message.is_set take last message entry for current dialogue and return it  
+	# 
+	# var 2) try using queues for this
+	#
+	# var 3) leave messages in memory in some sort of dictionary with stuff from all dialogues 
+	
 	# USE SESSIONS LATER
 	# try:
 	# 	for index, m in enumerate(cache):
@@ -221,10 +226,13 @@ def message_updates(session,db):
 def dialugue_close(db,d_id):
 	d_dialogues.pop(d_id)
 
-
+#================================== ADDITIONAL FUNCTIONS SECTION =======================================================
 
 def get_dialogue(from_id,to_id,db):
 	return db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
+
+#================================== BASIC SERVER SETUP =======================================================
+
 
 app = bottle.app()
 app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
