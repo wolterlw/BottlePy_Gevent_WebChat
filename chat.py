@@ -2,8 +2,6 @@
 
 # TODO LIST
 # 
-#
-# use dialogue_id to save one batabase search every time
 # use sessions
 # TODO: change string formatting in SQL queries to SQL api "?" and stuff 
 # TODO: work on ulr arguments
@@ -31,35 +29,36 @@ message_cache = {} #messages sent to another part of a dialogue
 #Used to get all the HTML CSS and JavaScript data needed
 #Everything else mostly returns JSONs
 
-@route('/static/<filename>/', name='static')
+@route('/static/<filename>/', name='static', method='GET')
 def static_files(filename):
 	return static_file(filename, root='./static/')
 
 @route('/')
 def index():
-	pdb.set_trace()
+	# pdb.set_trace()
 	u_id = int(request.get_cookie('id'))
 	if u_id: 
 		redirect('/users/{}'.format(u_id))
 	else:
 		redirect('/static/login/')
 
-@route('/login/new/', method='POST')
+@route('/login/', method='POST')
 def do_login(db):
 	pdb.set_trace()
 	username = request.json['username']
 	password = request.json['password']
 
-	u_id = db.execute('SELECT id FROM users WHERE username=\'%s\' and password=\'%s\';' % (username,password)).fetchone()
+	u_id = db.execute('SELECT id FROM users WHERE username=? and password=?;', (username,password)).fetchone()
 	
 	if not (u_id is None):
-		response.set_cookie('id',str(u_id['id']))
+		return  {'id' ,str(u_id['id']) }
+		# get id from cookie on frontend and create custo cookies
 		# do redirection to /users/userid in frontend
 	else: 
 		return HTTPError(404,'User not found')     
 
 #seems to work just fine on regular cases
-@route('/register/new/', method='POST')
+@route('/register/', method='POST')
 def do_register(db):
 	username = request.json['username']
 	password = request.json['password']
@@ -88,7 +87,7 @@ def user_homepage(user_id,db):
 	(user_id,) ).fetchall()
 	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
-@route('/users/logout/<user_id:int>/', method='POST')
+@route('/users/<user_id:int>/logout/', method='POST')
 def logout(user_id):
 	response.delete_cookie('id')
 	#TODO: check whether all dialogues are closed
@@ -107,12 +106,12 @@ def search_user(db):
 
 #==================================DIALOGUE SECTION=======================================================
 
-@route('/dialogues/create_dialogue/<to_id:int>/', method='POST')
+@route('/dialogues/<to_id:int>/', method='PUT')
 def create_dialogue(to_id,db):
-	pdb.set_trace()
+	# pdb.set_trace()
 	from_id = int( request.get_cookie('id') )
 	#checking whether this dialogue already exists
-	dialogue_id = get_dialogue(from_id,to_id,db)
+	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
 	if dialogue_id:
 		return HTTPError(409, 'dialogue already exists')
 	else:
@@ -125,7 +124,7 @@ def create_dialogue(to_id,db):
 
 
 #NO TEMPLATE
-@route('/dialogues/<dialogue_id:int>/init/', method='POST')
+@route('/dialogues/<dialogue_id:int>/', method='GET')
 def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()
@@ -145,7 +144,7 @@ def dialogue(dialogue_id,db):
 	else: return None #empty dialogue
 
 
-@route('/dialogues/<dialogue_id:int>/messages/new/', method='POST') 
+@route('/dialogues/<dialogue_id:int>/messages/', method='POST') 
 def message_new(db,dialogue_id):
 	# pdb.set_trace()
 	#could possibly be problems with large messages 
@@ -185,7 +184,7 @@ def message_new(db,dialogue_id):
 # -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
 # RECREATE THIS ONE FOR THE NEW SCHEME
-@route('/dialogues/<dialogue_id:int>/messages/update/', method='POST')
+@route('/dialogues/<dialogue_id:int>/messages/', method='GET')
 def message_updates(dialogue_id,db):
 	pdb.set_trace()
 	from_id = int(request.cookies.get('id'))
@@ -201,35 +200,19 @@ def message_updates(dialogue_id,db):
 	else: 
 		return HTTPError(404,"dialogue not opened")
 	
-
-
-	#TODO:
 	# var 1) if new_message.is_set take last message entry for current dialogue and return it  
 	# 
 	# var 2) try using queues for this
 	#
 	# var 3) leave messages in memory in some sort of dictionary with stuff from all dialogues 
 	
-	# USE SESSIONS LATER
-	# try:
-	# 	for index, m in enumerate(cache):
-	# 	   if m['id'] == cursor:
-	# 		   return {'messages': cache[index + 1:]}
-	# 	return {'messages': cache}
-	# finally:
-	# 	if cache:
-	# 		session['cursor'] = cache[-1]['id']
-	# 	else:
-	# 		session.pop('cursor', None)
+	#TODO: USE SESSIONS
+
 	
-@route('/dialogues/<dialogue_id :int>/close/',method='POST')
+@route('/dialogues/<dialogue_id :int>/',method='DELETE')
 def dialugue_close(db,d_id):
 	d_dialogues.pop(d_id)
 
-#================================== ADDITIONAL FUNCTIONS SECTION =======================================================
-
-def get_dialogue(from_id,to_id,db):
-	return db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
 
 #================================== BASIC SERVER SETUP =======================================================
 
