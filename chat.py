@@ -22,7 +22,7 @@ from bottle.ext import sqlite
 host_name = 'localhost'
 port_num = 8080
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
-num_messages = 20
+num_messages = 20 #number of messages sent when a dialogue is initialized
 d_dialogues = {}
 message_cache = {} #messages sent to another part of a dialogue
 
