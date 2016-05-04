@@ -66,15 +66,14 @@ def do_register(db):
 	present = db.execute('SELECT id FROM users WHERE username=\'%s\';' % username).fetchone()
 
 	if present is None:
-		new_id = int(db.execute('SELECT MAX(id) FROM users;').fetchone()[0])+1
+		new_id = int(db.execute('SELECT MAX(id)+1 FROM users;').fetchone()[0])
 		db.execute('INSERT INTO users VALUES(\'%d\',\'%s\',\'%s\');' % (new_id,username,password))
-		response.set_cookie('id',str(new_id))
+		return {'id',str(new_id)}
 
 	else: return HTTPError(409,'Username already exists')
 
 #==================================USER SECTION=======================================================
-
-#NO TEMPLATE 
+ 
 @route('/users/<user_id:int>/', method='GET')
 def user_homepage(user_id,db):
 	"""returns a Json {'username': 'dialogue_id'} """
@@ -87,7 +86,7 @@ def user_homepage(user_id,db):
 	(user_id,) ).fetchall()
 	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
-@route('/users/<user_id:int>/logout/', method='POST')
+@route('/users/<user_id:int>/', method='DELETE')
 def logout(user_id):
 	response.delete_cookie('id')
 	#TODO: check whether all dialogues are closed
@@ -123,7 +122,6 @@ def create_dialogue(to_id,db):
 #TODO: add a method to delete a dialogue
 
 
-#NO TEMPLATE
 @route('/dialogues/<dialogue_id:int>/', method='GET')
 def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
@@ -144,7 +142,7 @@ def dialogue(dialogue_id,db):
 	else: return None #empty dialogue
 
 
-@route('/dialogues/<dialogue_id:int>/messages/', method='POST') 
+@route('/dialogues/<dialogue_id:int>/messages_text/', method='POST') 
 def message_new(db,dialogue_id):
 	# pdb.set_trace()
 	#could possibly be problems with large messages 

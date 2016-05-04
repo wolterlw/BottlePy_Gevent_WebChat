@@ -1,0 +1,86 @@
+
+GET /static/<filename>/
+
+	 #gets all the HTML CSS and Js files
+
+GET /
+
+	 # if cookies['id'] is present - redirect to /users/<user_id>/
+	 #else redirect to login page
+
+POST /login/
+	json = {'username': username,
+ 		 'password': passowrd}
+
+ 	response = 
+ 			= {'id': 'user_id'} # if correct data
+ 			= response[404,'user not found'] #if data incorrect check with status_code 
+
+POST /register/
+	json = {'username': username,
+ 		 'password': password}
+
+	response = 
+ 			= {'id': 'user_id'} #if username free
+ 			= response[409, 'Username already exists'] #if username taken
+
+#=========================== USER SECTION ===========================
+
+GET /users/<user_id:int>/
+	response =	{'username': 'dialogue_id', 'username2': 'dialogue_id2' ...}
+
+DELETE /users/<user_id:int>/
+	#deletes used cookies
+
+POST /users/search/
+	json = {'username': username}
+
+	response = 
+			= {'id': 'user_id'} #if user found
+			= response[404, 'no such user']
+
+
+
+#=========================== DIALOGUE SECTION ===========================
+
+PUT /dialogues/<to_id:int>/
+	response =
+			= response[409, 'dialogue already exists'] #if failure
+			= {'dialogue_id': dialogue_id}
+
+GET /dialogues/<to_id:int>/
+	response = 
+			= '' #if dialogue is empty
+			= { dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
+							  'from_id': from_id
+							  'body': message_body},
+
+							  {'datetime': YYYY-MM-DD HH:mm:ss-2, 
+							  'from_id': from_id}
+							  'body': message_body2} ]
+				}
+
+POST /dialogues/<dialogue_id:int>/messages_text/
+	json = {'datetime': YYYY-MM-DD HH:mm:ss,
+			'body': message_body 
+			}
+
+	response = {'dialogue_id': dialogue_id,
+				'message_id': message_id,
+				'datetime': YYYY-MM-DD HH:mm:ss,
+				'from': from_name,
+				'body': message_body				
+				}
+
+GET /dialogue/<dialogue_id:int>/messages/
+	response = 
+			= response[ 404, 'dialogue not opened' ] # if no such dialogue opened
+			= {'dialogue_id': dialogue_id,
+				'message_id': message_id,
+				'datetime': YYYY-MM-DD HH:mm:ss,
+				'from': from_name,
+				'body': message_body				
+				} #on success
+
+DELETE /dialogues/<dialogue_id:int>/
+	#do every time dailogue is closed
