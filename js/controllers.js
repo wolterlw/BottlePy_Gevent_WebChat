@@ -3,7 +3,8 @@ var msngrControllers = angular.module('cControllers', []);
 msngrControllers.controller('LoginController', function () {
 	//have no idea where it supposed to be
     $("#menu-toggle").fadeOut(0);
-
+});
+msngrControllers.controller('SignInController', function() {
 	this.credentials = {};
 	this.submit = function() {
 		console.log(this.credentials);
@@ -14,7 +15,6 @@ msngrControllers.controller('LoginController', function () {
         $(".form-signup").fadeIn();
 	}
 });
-
 msngrControllers.controller('SignUpController', function() {
 	this.newUser = {};
 	this.submit = function() {
