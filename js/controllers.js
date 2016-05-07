@@ -1,7 +1,6 @@
 var msngrControllers = angular.module('cControllers', []);
 
 msngrControllers.controller('LoginController', function () {
-
 	//have no idea where it supposed to be
     $("#menu-toggle").fadeOut(0);
 

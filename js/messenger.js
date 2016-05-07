@@ -1,4 +1,4 @@
-var msngr = angular.module('messenger', ['ngRoute', 'cControllers']);
+var msngr = angular.module('messenger', ['ngRoute', 'cControllers', 'cDirectives']);
 
 msngr.config(function ($routeProvider) {
    	$routeProvider
