@@ -14,3 +14,11 @@ msngrControllers.controller('LoginController', function () {
         $(".form-signup").fadeIn();
 	}
 });
+
+msngrControllers.controller('SignUpController', function() {
+	this.newUser = {};
+	this.submit = function() {
+		console.log(this.newUser);
+		//use service for logging 
+	}
+});
