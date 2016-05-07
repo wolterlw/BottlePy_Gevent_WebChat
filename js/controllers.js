@@ -1,5 +1,8 @@
 var msngrControllers = angular.module('cControllers', []);
 
 msngrControllers.controller('LoginController', function () {
-	this.aloha = 'aloha';
+	this.credentials = {};
+	this.submit = function() {
+		console.log(this.credentials);
+	}
 });

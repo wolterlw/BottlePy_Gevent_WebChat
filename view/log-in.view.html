@@ -1,19 +1,18 @@
 <div class="row">
     <div class="col-lg-12">
-        <form class="form-signin">
+        <form name="signinForm" class="form-signin">
             <h2 class="form-signin-heading">Log in</h2>
-            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input ng-model="loginCtrl.credentials.username" type="text" id="inputUsername" class="form-control" placeholder="Username" required>
+            <input ng-model="loginCtrl.credentials.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
             <div class="row">
                 <div class="col-md-6">
-                    <button class="btn btn-lg btn-primary btn-block">Log in</button>
+                    <button ng-click="signinForm.$valid && loginCtrl.submit()" class="btn btn-lg btn-primary btn-block">Log in</button>
                 </div>
                 <div class="col-md-6">
                     <button id="signUpBtn" class="btn btn-lg btn-default btn-block">Sign up</button>
                 </div>
             </div>
         </form>
-        {{loginCtrl.aloha}}
         <form class="form-signup">
             <h2 class="form-signin-heading">Sign up</h2>
             <input type="text" id="inputUsername" class="form-control" placeholder="Username" required>
