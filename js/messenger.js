@@ -3,17 +3,17 @@ var msngr = angular.module('messenger', ['ngRoute', 'cControllers']);
 msngr.config(function ($routeProvider) {
    	$routeProvider
 		.when('/log-in', {
-			templateUrl: 'log-in.tmpl.html',
+			templateUrl: 'view/log-in.view.html',
 			controller: 'LoginController',
 			controllerAs: 'loginCtrl'
 		})
 		.when('/messages', {
-			templateUrl: 'messages.tmpl.html',
+			templateUrl: 'view/messages.view.html',
 			controller: function() {},
 			controllerAs: 'b'
 		})
 		.when('/dialog', {
-			templateUrl: 'dialog.tmpl.html',
+			templateUrl: 'view/dialog.view.html',
 			controller: function() {},
 			controllerAs: 'c'
 		})
