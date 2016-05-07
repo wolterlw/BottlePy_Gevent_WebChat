@@ -1,0 +1,1 @@
+var msngr = angular.module("messenger", ["ngRoute"]);
