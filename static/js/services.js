@@ -29,13 +29,13 @@ msngrServices.factory('LoginService', ['$http', 'AuthService', 'PathService', fu
 	obj.logOut = function() {
 		$http({ method: "DELETE", url: "/users/"+AuthService.getId() })
 			.then(function() {
-				//remove id from AuthService
-				//redirect to log-in page
+				AuthService.removeId();
+				PathService.goToLogin();
 				console.log("User has successfully logged out");
 			}, 
 			function() {
-				//remove id from AuthService
-				//redirect to log-in page
+				AuthService.removeId();
+				PathService.goToLogin();
 				console.log("User has logged out with error");
 			});
 	}
