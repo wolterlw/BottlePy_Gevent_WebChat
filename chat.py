@@ -29,9 +29,9 @@ message_cache = {} #messages sent to another part of a dialogue
 #Used to get all the HTML CSS and JavaScript data needed
 #Everything else mostly returns JSONs
 
-@route('/static/<filename>/', name='static', method='GET')
-def static_files(filename):
-	return static_file(filename, root='./static/')
+@route('/static/<filepath:path>/', name='static', method='GET')
+def static_files(filepath):
+	return static_file(filenamepath, root='./static/')
 
 @route('/')
 def index():
@@ -44,14 +44,14 @@ def index():
 
 @route('/login/', method='POST')
 def do_login(db):
-	pdb.set_trace()
+	# pdb.set_trace()
 	username = request.json['username']
 	password = request.json['password']
 
 	u_id = db.execute('SELECT id FROM users WHERE username=? and password=?;', (username,password)).fetchone()
 	
 	if not (u_id is None):
-		return  {'id' ,str(u_id['id']) }
+		return  {'id': str(u_id['id']) }
 		# get id from cookie on frontend and create custo cookies
 		# do redirection to /users/userid in frontend
 	else: 
@@ -68,7 +68,7 @@ def do_register(db):
 	if present is None:
 		new_id = int(db.execute('SELECT MAX(id)+1 FROM users;').fetchone()[0])
 		db.execute('INSERT INTO users VALUES(\'%d\',\'%s\',\'%s\');' % (new_id,username,password))
-		return {'id',str(new_id)}
+		return {'id': str(new_id)}
 
 	else: return HTTPError(409,'Username already exists')
 
@@ -110,14 +110,17 @@ def create_dialogue(to_id,db):
 	# pdb.set_trace()
 	from_id = int( request.get_cookie('id') )
 	#checking whether this dialogue already exists
-	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id={0} and to_id={1}'.format(from_id,to_id)).fetchone()
-	if dialogue_id:
-		return HTTPError(409, 'dialogue already exists')
-	else:
-		dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
-		db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
-		db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
-		return {'dialogue_id': dialogue_id}
+	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=? and to_id=?',(from_id,to_id)).fetchone()
+	to_username = db.execute('SELECT username FROM users WHERE id=?',(to_id,) ).fetchone()
+	if to_username:
+		if dialogue_id:
+			return HTTPError(409, 'dialogue already exists')
+		else:
+			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
+			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
+			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
+			return {'dialogue_id': dialogue_id}
+	else: return HTTPError(404,'No such user')		
 
 #TODO: add a method to delete a dialogue
 
@@ -127,7 +130,7 @@ def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()
 	global num_messages
-
+	
 	from_id = int( request.get_cookie('id') )
 	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
 	
@@ -144,7 +147,7 @@ def dialogue(dialogue_id,db):
 
 @route('/dialogues/<dialogue_id:int>/messages_text/', method='POST') 
 def message_new(db,dialogue_id):
-	# pdb.set_trace()
+	pdb.set_trace()
 	#could possibly be problems with large messages 
 	#make limitations to single message size according to max response size
 
@@ -179,12 +182,10 @@ def message_new(db,dialogue_id):
 		#this one is a Json encoded string
 		return msg
 
-# -----------------------------------CHECKED UNTIL HERE---------------------------------------------------
 
-# RECREATE THIS ONE FOR THE NEW SCHEME
 @route('/dialogues/<dialogue_id:int>/messages/', method='GET')
 def message_updates(dialogue_id,db):
-	pdb.set_trace()
+	# pdb.set_trace()
 	from_id = int(request.cookies.get('id'))
 	global d_dialogues
 	global message_cache
