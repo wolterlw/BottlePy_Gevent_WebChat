@@ -25,19 +25,10 @@ msngrControllers.controller('SignUpController', ['LoginService', function(LoginS
 	}
 }]);
 
-msngrControllers.controller('MessagesController', ['$http', 'AuthService', function($http, AuthService) {
+msngrControllers.controller('MessagesController', ['ContactService', function(ContactService) {
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
 
-	var self = this;
 	this.buddyList = {};
-	$http.get("/users/"+AuthService.getId())
-		.success(function (data) {
-			self.buddyList = data;
-			console.log("MessagesController, success: self.buddyList=", self.buddyList);
-		})
-		.error(function(data) {
-			//handle error
-			console.log("MessagesController, error: data=", data);
-		});
+	ContactService.getContacts(this.buddyList);
 }]);

@@ -29,6 +29,33 @@ msngrServices.factory('LoginService', ['$http', 'AuthService', 'PathService', fu
 	return obj;
 }]);
 
+msngrServices.factory('ContactService', ['$http', 'AuthService', function($http, AuthService) {
+	var obj = {}
+	obj.getContacts = function(buddyList) {
+		$http.get("/users/"+AuthService.getId())
+			.success(function (data) {
+				console.log("ContactService, getContacts: data=", data);
+				buddyList = data;
+			})
+			.error(function(data) {
+				//handle error
+				console.log("ContactService, getContacts: data=", data);
+			});
+	}
+	obj.addContact = function(buddyList, username) {
+		$http.post("/users/search", username)
+			.success(function(data) {
+				console.log("ContactService, addContact: data=", data);
+				//redirect to dialog with this user
+			})
+			.error(function(data) {
+				//handle error
+				console.log("ContactService, getContacts: data=", data);
+			});
+	}
+	return obj;
+}]);
+
 msngrServices.factory('AuthService', function() {
 	var id;
 	var obj = {};
