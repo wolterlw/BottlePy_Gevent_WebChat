@@ -26,6 +26,19 @@ msngrServices.factory('LoginService', ['$http', 'AuthService', 'PathService', fu
             	//show error message and other shit for damn user
             });
 	}
+	obj.logOut = function() {
+		$http({ method: "DELETE", url: "/users/"+AuthService.getId() })
+			.then(function() {
+				//remove id from AuthService
+				//redirect to log-in page
+				console.log("User has successfully logged out");
+			}, 
+			function() {
+				//remove id from AuthService
+				//redirect to log-in page
+				console.log("User has logged out with error");
+			});
+	}
 	return obj;
 }]);
 
