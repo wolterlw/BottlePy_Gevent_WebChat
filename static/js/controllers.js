@@ -15,10 +15,12 @@ msngrControllers.controller('SignInController', ['LoginService', function(LoginS
         $(".form-signup").fadeIn();
 	}
 }]);
-msngrControllers.controller('SignUpController', function() {
+msngrControllers.controller('SignUpController', ['LoginService', function(LoginService) {
 	this.newUser = {};
 	this.submit = function() {
-		console.log(this.newUser);
-		//use service for logging 
+		//cut our json, because of the backend
+		delete this.newUser.email
+		console.log("SignUpController: this.newUser=", this.newUser);
+		LoginService.signUp(this.newUser);
 	}
-});
+}]);

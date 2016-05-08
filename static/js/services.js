@@ -5,15 +5,26 @@ msngrServices.factory('LoginService', ['$http', function($http) {
 	obj.signIn = function(credentials) {
 		$http.post('/login', credentials)
             .success(function (data) {
-				console.log("LoginService signIn: data=", data);
+				console.log("LoginService, signIn: data=", data);
 				//save id to auth service
 				//redirect
             })
             .error(function (data) {
-            	console.log("LoginService signIn: data=", data);
+            	console.log("LoginService, signIn: data=", data);
             	//show error message and other shit for damn user
             });
 	}
-
+	obj.signUp = function(credentials) {
+		$http.post('/register', credentials)
+            .success(function (data) {
+				console.log("LoginService, signUp: data=", data);
+				//save id to auth service
+				//redirect
+            })
+            .error(function (data) {
+            	console.log("LoginService, signUp: data=", data);
+            	//show error message and other shit for damn user
+            });
+	}
 	return obj;
 }]);
