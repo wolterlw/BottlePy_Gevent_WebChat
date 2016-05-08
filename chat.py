@@ -30,7 +30,6 @@ message_cache = {} #messages sent to another part of a dialogue
 #Everything else mostly returns JSONs
 
 @route('/static/<filepath:path>', name='static', method='GET')
-@route('/static/<filepath:path>/', name='static', method='GET')
 def static_files(filepath):
 	# pdb.set_trace()
 	return static_file(filepath, root='./static/')
@@ -39,9 +38,9 @@ def static_files(filepath):
 @route('/')
 def index():
 	# pdb.set_trace()
-	u_id = int(request.get_cookie('id'))
+	u_id = request.get_cookie('id')
 	if u_id: 
-		redirect('/users/{}'.format(u_id))
+		redirect('/users/{}'.format(u_id) )
 	else:
 		redirect('/static/index.html')
 

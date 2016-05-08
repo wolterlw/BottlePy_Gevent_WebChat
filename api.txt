@@ -3,7 +3,7 @@ GET /static/<filename>/
 
 	 #gets all the HTML CSS and Js files
 
-GET /
+GETмамсмсс /
 
 	 # if cookies['id'] is present - redirect to /users/<user_id>/
 	 #else redirect to login page
