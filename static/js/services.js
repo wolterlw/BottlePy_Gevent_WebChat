@@ -78,6 +78,9 @@ msngrServices.factory('AuthService', function() {
 	obj.getId = function() {
 		return id;
 	}
+	obj.removeId = function() {
+		id = undefined;
+	}
 	return obj;
 });
 
