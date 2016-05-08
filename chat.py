@@ -35,6 +35,7 @@ def static_files(filepath):
 	# pdb.set_trace()
 	return static_file(filepath, root='./static/')
 
+@route('')
 @route('/')
 def index():
 	# pdb.set_trace()
@@ -42,9 +43,9 @@ def index():
 	if u_id: 
 		redirect('/users/{}'.format(u_id))
 	else:
-		redirect('/static/login/')
+		redirect('/static/index.html')
 
-@route('/login/', method='POST')
+@route('/login', method='POST')
 def do_login(db):
 	# pdb.set_trace()
 	username = request.json['username']
@@ -60,7 +61,7 @@ def do_login(db):
 		return HTTPError(404,'User not found')     
 
 #seems to work just fine on regular cases
-@route('/register/', method='POST')
+@route('/register', method='POST')
 def do_register(db):
 	username = request.json['username']
 	password = request.json['password']
@@ -76,7 +77,7 @@ def do_register(db):
 
 #==================================USER SECTION=======================================================
  
-@route('/users/<user_id:int>/', method='GET')
+@route('/users/<user_id:int>', method='GET')
 def user_homepage(user_id,db):
 	"""returns a Json {'username': 'dialogue_id'} """
 	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
@@ -88,13 +89,13 @@ def user_homepage(user_id,db):
 	(user_id,) ).fetchall()
 	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
-@route('/users/<user_id:int>/', method='DELETE')
+@route('/users/<user_id:int>', method='DELETE')
 def logout(user_id):
 	response.delete_cookie('id')
 	#TODO: check whether all dialogues are closed
 
 
-@route('/users/search/', method='POST')
+@route('/users/search', method='POST')
 def search_user(db):
 	# pdb.set_trace()
 	username = request.json['username']
@@ -107,7 +108,7 @@ def search_user(db):
 
 #==================================DIALOGUE SECTION=======================================================
 
-@route('/dialogues/<to_id:int>/', method='PUT')
+@route('/dialogues/<to_id:int>', method='PUT')
 def create_dialogue(to_id,db):
 	# pdb.set_trace()
 	from_id = int( request.get_cookie('id') )
@@ -127,7 +128,7 @@ def create_dialogue(to_id,db):
 #TODO: add a method to delete a dialogue
 
 
-@route('/dialogues/<dialogue_id:int>/', method='GET')
+@route('/dialogues/<dialogue_id:int>', method='GET')
 def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()
@@ -147,7 +148,7 @@ def dialogue(dialogue_id,db):
 	else: return None #empty dialogue
 
 
-@route('/dialogues/<dialogue_id:int>/messages_text/', method='POST') 
+@route('/dialogues/<dialogue_id:int>/messages_text', method='POST') 
 def message_new(db,dialogue_id):
 	pdb.set_trace()
 	#could possibly be problems with large messages 
@@ -185,7 +186,7 @@ def message_new(db,dialogue_id):
 		return msg
 
 
-@route('/dialogues/<dialogue_id:int>/messages/', method='GET')
+@route('/dialogues/<dialogue_id:int>/messages', method='GET')
 def message_updates(dialogue_id,db):
 	# pdb.set_trace()
 	from_id = int(request.cookies.get('id'))
@@ -210,7 +211,7 @@ def message_updates(dialogue_id,db):
 	#TODO: USE SESSIONS
 
 	
-@route('/dialogues/<dialogue_id :int>/',method='DELETE')
+@route('/dialogues/<dialogue_id :int>',method='DELETE')
 def dialugue_close(db,d_id):
 	d_dialogues.pop(d_id)
 
