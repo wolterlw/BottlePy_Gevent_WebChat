@@ -86,5 +86,8 @@ msngrServices.factory('PathService', ['$location', function($location) {
 	obj.goToMessages = function() {
 		$location.path('/messages');
 	}
+	obj.goToLogin = function() {
+		$location.path('/log-in');
+	}
 	return obj;
 }]);
