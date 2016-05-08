@@ -1,0 +1,13 @@
+<form name="signinForm" class="form-signin">
+    <h2 class="form-signin-heading">Log in</h2>
+    <input ng-model="signInCtrl.credentials.username" type="text" id="inputUsername" class="form-control" placeholder="Username" required>
+    <input ng-model="signInCtrl.credentials.password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    <div class="row">
+        <div class="col-md-6">
+            <button ng-click="signinForm.$valid && signInCtrl.submit()" class="btn btn-lg btn-primary btn-block">Log in</button>
+        </div>
+        <div class="col-md-6">
+            <button ng-click="signInCtrl.toggleLogin()" id="signUpBtn" class="btn btn-lg btn-default btn-block">Sign up</button>
+        </div>
+    </div>
+</form>
