@@ -29,9 +29,11 @@ message_cache = {} #messages sent to another part of a dialogue
 #Used to get all the HTML CSS and JavaScript data needed
 #Everything else mostly returns JSONs
 
+@route('/static/<filepath:path>', name='static', method='GET')
 @route('/static/<filepath:path>/', name='static', method='GET')
 def static_files(filepath):
-	return static_file(filenamepath, root='./static/')
+	# pdb.set_trace()
+	return static_file(filepath, root='./static/')
 
 @route('/')
 def index():
