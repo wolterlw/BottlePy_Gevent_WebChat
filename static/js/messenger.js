@@ -9,8 +9,8 @@ msngr.config(function ($routeProvider) {
 		})
 		.when('/messages', {
 			templateUrl: 'view/messages.view.html',
-			controller: function() {},
-			controllerAs: 'b'
+			controller: 'MessagesController',
+			controllerAs: 'messagesCtrl'
 		})
 		.when('/dialog', {
 			templateUrl: 'view/dialog.view.html',
