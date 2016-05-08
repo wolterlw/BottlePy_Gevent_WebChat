@@ -1,13 +1,12 @@
 var msngrServices = angular.module('cServices', []);
 
-msngrServices.factory('LoginService', ['$http', function($http) {
+msngrServices.factory('LoginService', ['$http', 'AuthService', function($http, AuthService) {
 	var obj = {};
 	obj.signIn = function(credentials) {
 		$http.post('/login', credentials)
             .success(function (data) {
 				console.log("LoginService, signIn: data=", data);
-				//save id to auth service
-				//redirect
+				AuthService.setId(data.id);
             })
             .error(function (data) {
             	console.log("LoginService, signIn: data=", data);
@@ -18,8 +17,7 @@ msngrServices.factory('LoginService', ['$http', function($http) {
 		$http.post('/register', credentials)
             .success(function (data) {
 				console.log("LoginService, signUp: data=", data);
-				//save id to auth service
-				//redirect
+				AuthService.setId(data.id);
             })
             .error(function (data) {
             	console.log("LoginService, signUp: data=", data);
@@ -28,3 +26,15 @@ msngrServices.factory('LoginService', ['$http', function($http) {
 	}
 	return obj;
 }]);
+
+msngrServices.factory('AuthService', function() {
+	var id;
+	var obj = {};
+	obj.setId = function(idToSet) {
+		id = idToSet;
+	}
+	obj.getId = function() {
+		return id;
+	}
+	return obj;
+});
