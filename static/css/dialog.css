@@ -23,7 +23,8 @@ html {
   margin: 15px;
   margin-left: 0;
 }
-.msg-holder {
+.msg {
+  padding: 8px;
   margin: 8px;
   border-radius: 5px;
   cursor: pointer;
