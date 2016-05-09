@@ -42,7 +42,7 @@ msngrServices.factory('LoginService', ['$http', 'AuthService', 'PathService', fu
 	return obj;
 }]);
 
-msngrServices.factory('ContactService', ['$http', 'AuthService', function($http, AuthService) {
+msngrServices.factory('ContactService', ['$http', 'AuthService', 'PathService', function($http, AuthService, PathService) {
 	var obj = {}
 	obj.getContacts = function(buddyList) {
 		$http.get("/users/"+AuthService.getId())
@@ -55,15 +55,15 @@ msngrServices.factory('ContactService', ['$http', 'AuthService', function($http,
 				console.log("ContactService, getContacts: data=", data);
 			});
 	}
-	obj.addContact = function(buddyList, username) {
+	obj.addContact = function(username) {
 		$http.post("/users/search", username)
 			.success(function(data) {
 				console.log("ContactService, addContact: data=", data);
-				//redirect to dialog with this user
+				PathService.goToDialog(username.username);
 			})
 			.error(function(data) {
 				//handle error
-				console.log("ContactService, getContacts: data=", data);
+				console.log("ContactService, addContact: data=", data);
 			});
 	}
 	return obj;
@@ -91,6 +91,9 @@ msngrServices.factory('PathService', ['$location', function($location) {
 	}
 	obj.goToLogin = function() {
 		$location.path('/log-in');
+	}
+	obj.goToDialog = function(user) {
+		if(user) $location.path('/dialog/'+user);
 	}
 	return obj;
 }]);

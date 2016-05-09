@@ -4,9 +4,9 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="findUser">Find user: </label>
-                    <input type="text" class="form-control" id="findUser" placeholder="Username to find">
-                </div>
-                <button type="submit" class="btn btn-primary">Find!</button>
+                    <input ng-model="messagesCtrl.newFriend" type="text" class="form-control" id="findUser" placeholder="Username to find">
+                </div> 
+                <button ng-click="messagesCtrl.search()" class="btn btn-primary">Find!</button>
             </form>
         </div>
     </div>

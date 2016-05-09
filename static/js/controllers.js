@@ -29,6 +29,13 @@ msngrControllers.controller('MessagesController', ['ContactService', function(Co
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
 
+	this.newFriend = "";
 	this.buddyList = {};
 	ContactService.getContacts(this.buddyList);
+	
+	this.search = function() {
+		username = {'username': this.newFriend};
+		console.log("MessagesController, search, username=", username);
+		ContactService.addContact(username);
+	}
 }]);

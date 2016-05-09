@@ -12,7 +12,7 @@ msngr.config(function ($routeProvider) {
 			controller: 'MessagesController',
 			controllerAs: 'messagesCtrl'
 		})
-		.when('/dialog', {
+		.when('/dialog/:user', {
 			templateUrl: 'view/dialog.view.html',
 			controller: function() {},
 			controllerAs: 'c'
