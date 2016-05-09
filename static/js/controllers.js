@@ -25,7 +25,7 @@ msngrControllers.controller('SignUpController', ['LoginService', function(LoginS
 	}
 }]);
 
-msngrControllers.controller('MessagesController', ['ContactService', function(ContactService) {
+msngrControllers.controller('MessagesController', ['ContactService', 'PathService', function(ContactService, PathService) {
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
 
@@ -51,5 +51,9 @@ msngrControllers.controller('MessagesController', ['ContactService', function(Co
 		username = {'username': this.newFriend};
 		console.log("MessagesController, search, username=", username);
 		ContactService.addContact(username);
+	}
+	this.openDialog = function(user) {
+		console.log("MessagesController, openDialog, user=", user);
+		PathService.goToDialog(user);
 	}
 }]);

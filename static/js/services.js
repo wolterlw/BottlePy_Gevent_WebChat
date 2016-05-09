@@ -73,7 +73,6 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 	return obj;
 }]);
 
-//internal services
 msngrServices.factory('AuthService', function() {
 	var id;
 	var obj = {};
@@ -88,6 +87,7 @@ msngrServices.factory('AuthService', function() {
 	}
 	return obj;
 });
+
 msngrServices.factory('PathService', ['$location', function($location) {
 	var obj = {};
 	obj.goToMessages = function() {
