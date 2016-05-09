@@ -62,7 +62,8 @@ GET /dialogues/<to_id:int>
 				}
 
 POST /dialogues/<dialogue_id:int>/messages_text
-	json = {'datetime': YYYY-MM-DD HH:mm:ss,
+	json = {'id': id,
+			'datetime': YYYY-MM-DD HH:mm:ss,
 			'body': message_body 
 			}
 
