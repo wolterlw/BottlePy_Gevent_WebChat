@@ -29,10 +29,24 @@ msngrControllers.controller('MessagesController', ['ContactService', function(Co
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
 
+	var self = this;
 	this.newFriend = "";
 	this.buddyList = {};
-	ContactService.getContacts(this.buddyList);
-	
+	this.friends = [];
+
+	ContactService.getContacts()
+		.then(function(data) {
+			angular.forEach(data, function(key, value) {
+				self.friends.push(key);
+				self.buddyList[key] = value;
+			});
+			console.log("MessagesController, ContactService.getContacts.then self.buddyList=", self.buddyList);
+			console.log("MessagesController, ContactService.getContacts.then self.friends=", self.friends);
+		}, function(data) {
+			//handle error
+			console.log("MessagesController, ContactService.getContacts.then data=");
+		});
+
 	this.search = function() {
 		username = {'username': this.newFriend};
 		console.log("MessagesController, search, username=", username);

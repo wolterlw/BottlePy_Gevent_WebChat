@@ -13,70 +13,13 @@
 </div>
 <div class="well">
     <div class="row">
-        <div class="col-md-12">
-            <a style="color: inherit; text-decoration: inherit;" href="dialog.html">
+        <div ng-repeat="user in messagesCtrl.friends" class="col-md-12">
             <div class="media msg-holder">
                 <div class="media-left media-middle">
                     <img class="media-object img-circle" src="http://www.placehold.it/64x64">
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">Augustin-Louis Cauchy <span class="badge warning">+42 new</span></h4>
-                    <p>
-                        <span class="label label-info">online</span>  
-                    </p>
-                </div>
-            </div>
-            </a>
-        </div>
-        <div class="col-md-12">
-            <div class="media msg-holder">
-                <div class="media-left media-middle">
-                    <img class="media-object img-circle" src="http://www.placehold.it/64x64">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Joseph-Louis Lagrange</h4>
-                    <p>
-                        <span class="label label-default">offline</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="media msg-holder">
-                <div class="media-left media-middle">
-                    <img class="media-object img-circle" src="http://www.placehold.it/64x64">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Viktor Bunyakovsky  <span class="badge warning">+1 new</span></h4>
-                    <p>
-                        <span class="label label-default">offline</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="media msg-holder">
-                <div class="media-left media-middle">
-                    <img class="media-object img-circle" src="http://www.placehold.it/64x64">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Pierre-Simon Laplace</h4>
-                    <p>
-                        <span class="label label-info">online</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="media msg-holder">
-                <div class="media-left media-middle">
-                    <img class="media-object img-circle" src="http://www.placehold.it/64x64">
-                </div>
-                <div class="media-body">
-                    <h4 class="media-heading">Karl Pearson</h4>
-                    <p>
-                        <span class="label label-info">online</span>
-                    </p>
+                    <h4 class="media-heading">{{user}}</h4>
                 </div>
             </div>
         </div>
