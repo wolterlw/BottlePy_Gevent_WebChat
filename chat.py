@@ -126,7 +126,7 @@ def create_dialogue(to_id,db):
 #TODO: add a method to delete a dialogue
 
 
-@route('/dialogues/<dialogue_id:int>', method='GET')
+@route('/dialogues/<dialogue_id:int>', method='POST')
 def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()

@@ -73,9 +73,12 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 	return obj;
 }]);
 
-msngrServices.factory('DialogService', ['$http', 'AuthService', function($http, AuthService) {
+msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($http, $q, AuthService) {
 	var obj = {};
 	obj.dialogId;
+	obj.initDialog = function() {
+
+	}
 	obj.createDialog = function(toId) {
 		var self = this;
 		$http({ method: "PUT", url: "/dialogues/"+toId, data: {'id': AuthService.getId()} })
@@ -90,6 +93,20 @@ msngrServices.factory('DialogService', ['$http', 'AuthService', function($http, 
 				//handle error
 				console.log("DialogService, createDialog method, response=", response);
 			});
+	}
+	obj.getMessageHistory = function(toId) {
+		var deferred = $q.defer();
+		$http.post("/dialogues/"+toId, {'id': AuthService.getId()})
+			.success(function (data) {
+				console.log("DialogService, getMessageHistory: data=", data);
+				deferred.resolve(data);
+			})
+			.error(function(data) {
+				//handle error
+				console.log("DialogService, getMessageHistory: data=", data);
+				deferred.reject(data);
+			});
+		return deferred.promise;
 	}
 	return obj;
 }]);
