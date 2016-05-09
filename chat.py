@@ -188,7 +188,7 @@ def message_new(db,dialogue_id):
 @route('/dialogues/<dialogue_id:int>/messages', method='GET')
 def message_updates(dialogue_id,db):
 	# pdb.set_trace()
-	from_id = int(request.cookies.get('id'))
+	from_id = int(request.json['id'])
 	global d_dialogues
 	global message_cache
 	new_message_event = d_dialogues[dialogue_id]

@@ -75,6 +75,7 @@ POST /dialogues/<dialogue_id:int>/messages_text
 				}
 
 GET /dialogue/<dialogue_id:int>/messages
+	json = {'id': user_id}
 	response = 
 			= response[ 404, 'dialogue not opened' ] # if no such dialogue opened
 			= {'dialogue_id': dialogue_id,
