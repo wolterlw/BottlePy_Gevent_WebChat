@@ -38,11 +38,11 @@ def static_files(filepath):
 @route('/')
 def index():
 	# pdb.set_trace()
-	u_id = request.json['id']
-	if u_id: 
-		redirect('/users/{}'.format(u_id) )
-	else:
-		redirect('/static/index.html')
+	# u_id = request.json['id']
+	# if u_id: 
+		# redirect('/users/{}'.format(u_id) )
+	# else:
+	redirect('/static/index.html')
 
 @route('/login', method='POST')
 def do_login(db):

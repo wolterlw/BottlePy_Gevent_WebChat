@@ -42,11 +42,14 @@ POST /users/search
 #=========================== DIALOGUE SECTION ===========================
 
 PUT /dialogues/<to_id:int>
+	json = {'id': user_id}
+
 	response =
 			= response[409, 'dialogue already exists'] #if failure
 			= {'dialogue_id': dialogue_id}
 
 GET /dialogues/<to_id:int>
+	json = {'id': user_id}
 	response = 
 			= '' #if dialogue is empty
 			= { dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
