@@ -38,7 +38,7 @@ def static_files(filepath):
 @route('/')
 def index():
 	# pdb.set_trace()
-	u_id = request.get_cookie('id')
+	u_id = request.json['id']
 	if u_id: 
 		redirect('/users/{}'.format(u_id) )
 	else:
@@ -109,8 +109,8 @@ def search_user(db):
 
 @route('/dialogues/<to_id:int>', method='PUT')
 def create_dialogue(to_id,db):
-	# pdb.set_trace()
-	from_id = int( request.get_cookie('id') )
+	pdb.set_trace()
+	from_id = int( request.json['id'] )
 	#checking whether this dialogue already exists
 	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=? and to_id=?',(from_id,to_id)).fetchone()
 	to_username = db.execute('SELECT username FROM users WHERE id=?',(to_id,) ).fetchone()
@@ -133,7 +133,7 @@ def dialogue(dialogue_id,db):
 	# pdb.set_trace()
 	global num_messages
 	
-	from_id = int( request.get_cookie('id') )
+	from_id = int( request.json['id'] )
 	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
 	
 	if not dialogue_id in d_dialogues:
