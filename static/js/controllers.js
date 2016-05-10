@@ -67,6 +67,8 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 		console.log("DialogController, data=", data);
 		self.msgs = data[DialogService.getDialogId()];
 		console.log("DialogController, self.msgs=", self.msgs);
+		//have no idea where it supposed to be
+		$("html, body").animate({ scrollTop: $(document).height() }, "fast");
 	}, function(data) {
 		//handle error
 		console.log("DialogController, data=", data);
