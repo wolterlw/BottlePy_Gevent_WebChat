@@ -99,9 +99,10 @@ msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($
 				console.log("DialogService, createDialog method, response=", response);
 			});
 	}
-	obj.getMessageHistory = function(toId) {
+	obj.getMessageHistory = function() {
+		var self = this;
 		var deferred = $q.defer();
-		$http.post("/dialogues/"+toId, {'id': AuthService.getId()})
+		$http.post("/dialogues/"+self.getDialogId(), {'id': AuthService.getId()})
 			.success(function (data) {
 				console.log("DialogService, getMessageHistory: data=", data);
 				deferred.resolve(data);

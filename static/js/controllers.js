@@ -59,6 +59,24 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 	}
 }]);
 
-msngrControllers.controller('DialogController', [function() {
-	
+msngrControllers.controller('DialogController', ['DialogService', 'AuthService', function(DialogService, AuthService) {
+	var self = this;
+	var msgs;
+
+	DialogService.getMessageHistory().then(function(data) {
+		console.log("DialogController, data=", data);
+		self.msgs = data[DialogService.getDialogId()];
+		console.log("DialogController, self.msgs=", self.msgs);
+	}, function(data) {
+		//handle error
+		console.log("DialogController, data=", data);
+	});
+
+	this.isIdMatch = function(id) {
+		return (AuthService.getId() == id); 
+	}
+	this.setRightHeader = function(id) {
+		if(this.isIdMatch(id)) return "text-right"
+		else return "";
+	}
 }]);
