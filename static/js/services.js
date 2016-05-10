@@ -76,8 +76,11 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($http, $q, AuthService) {
 	var obj = {};
 	obj.dialogId;
-	obj.initDialog = function() {
-
+	obj.setDialogId = function(id) {
+		this.dialogId = id;
+	}
+	obj.getDialogId = function() {
+		return this.dialogId;
 	}
 	obj.createDialog = function(toId) {
 		var self = this;
