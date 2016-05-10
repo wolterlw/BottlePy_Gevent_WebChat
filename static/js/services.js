@@ -74,23 +74,25 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 }]);
 
 msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($http, $q, AuthService) {
+	var dialogId;
 	var obj = {};
-	obj.dialogId;
 	obj.setDialogId = function(id) {
-		this.dialogId = id;
+		dialogId = id;
+		console.log("DialogService, setDialogId, dialogId=", dialogId);
 	}
 	obj.getDialogId = function() {
-		return this.dialogId;
+		console.log("DialogService, getDialogId, dialogId=", dialogId);
+		return dialogId;
 	}
 	obj.createDialog = function(toId) {
 		var self = this;
 		$http({ method: "PUT", url: "/dialogues/"+toId, data: {'id': AuthService.getId()} })
 			.then(function(response) {
-				self.dialogId = response.data.dialogue_id;
+				self.setDialogId(response.data.dialogue_id);
 				console.log("DialogService, createDialog method, sendId=", AuthService.getId());
 				console.log("DialogService, createDialog method, toId=", toId);
 				console.log("DialogService, createDialog method, response=", response);
-				console.log("DialogService, createDialog method, self.dialogId=", self.dialogId);
+				console.log("DialogService, createDialog method, self.dialogId=", self.getDialogId());
 			}, 
 			function(response) {
 				//handle error
