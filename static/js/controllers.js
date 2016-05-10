@@ -58,3 +58,7 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 		PathService.goToDialog(user);
 	}
 }]);
+
+msngrControllers.controller('DialogController', [function() {
+	
+}]);

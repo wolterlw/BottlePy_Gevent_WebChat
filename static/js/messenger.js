@@ -14,8 +14,8 @@ msngr.config(function ($routeProvider) {
 		})
 		.when('/dialog/:user', {
 			templateUrl: 'view/dialog.view.html',
-			controller: function() {},
-			controllerAs: 'c'
+			controller: 'DialogController',
+			controllerAs: 'dialogCtrl'
 		})
 		.otherwise({
 			redirectTo: '/log-in'
