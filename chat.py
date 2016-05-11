@@ -82,8 +82,6 @@ def user_homepage(user_id,db):
 	"""returns a Json {'username': 'dialogue_id'} """
 	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
 
-	#TODO: check for appropriate cookies
-
 	dialogues = db.execute(
 	'SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;',
 	(user_id,) ).fetchall()
@@ -119,7 +117,7 @@ def create_dialogue(to_id,db):
 	if to_username:
 		to_username = to_username[0]
 		if dialogue_id:
-			return HTTPError(409, 'dialogue already exists')
+			return {'dialogue_id': dialogue_id, 'to_name': to_username}
 		else:
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )

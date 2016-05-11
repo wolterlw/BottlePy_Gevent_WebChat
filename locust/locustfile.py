@@ -3,6 +3,9 @@ import random
 import pdb
 import time
 
+
+#TODO: make self.client.id a string and skip converting it every time 
+
 num_users = 100
 Receivers = []
 Senders = []
@@ -15,17 +18,15 @@ class Receiver_dialogue(TaskSet):
 	@task(1)
 	def close_dialogue(self):
 		# pdb.set_trace()
-		self.client.delete('dialogues/{0}'.format(self.current_dialogue), name="DELETE /dialogues/<id>/" ) 
 		self.interrupt()
 
-	@task(10)
+	@task(20)
 	def poll_message(self):
-		# pdb.set_trace()
 		with self.client.get('dialogues/{0}/messages'.format(self.client.current_dialogue), catch_response = True, name = "GET /dialogues/<int>/messages") as resp:
 			if resp.status_code == 200:
 				resp.success()
-				print resp.json()
-			else: resp.failure("unexpected error 2")			
+				print resp.text
+			else: resp.failure("unexpected error in long poll")			
 
 	def on_start(self):
 		global Senders
@@ -40,30 +41,30 @@ class Receiver_dialogue(TaskSet):
 				time.sleep(5)
 			else:
 				break()
-		self.client.current_from_id = str(from_id)
+
 		# creating dialogue
-		with self.client.put('dialogues/{0}'.format(from_id), cookies = {'id': str(self.id) }, catch_response=True, name="PUT /dialogues/<id>/" ) as resp:
+		with self.client.put('dialogues/{0}'.format(from_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
 			if resp.status_code == 404:
-				print "chose invalid user"
-				resp.success()
+				resp.failure('somehow chose invalid user')
 				self.interrupt()
 			if resp.status_code == 409:
 				print "logging into an exsting dialogue"
-				resp.success()
+				self.client.current_dialogue = str(resp.json()['dialogue_id'])
+				self.success()
 	 		if resp.status_code == 200:
 	 			self.client.current_dialogue = str(resp.json()['dialogue_id'])
 	 			resp.success()
-	 		else: resp.failure("unexpected error 3")
+	 		else: resp.failure("Error initializing Receiver dialogue")
 
 	 	#opening dialogue
-	 	with self.client.post('dialogues/{0}'.format(from_id), json={'id': str(self.client.id) } catch_response=True, name="POST /dialogues/<id>/") as resp:
+	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) } catch_response=True, name="POST /dialogues/<id>") as resp:
 	 		if resp.status_code == 409:
 	 			print "Opened exsting dialogue"
 	 			resp.success()
 	 		else: 
 	 			if resp.status_code == 200:
 	 				if resp.text:
-	 					print resp.json()
+	 					print resp.text
 	 				resp.success()
 	 			else: resp.failure("unexpected error with dialogue initialization")
 
@@ -79,14 +80,15 @@ class ReceiverTaskSet(TaskSet):
 		global Receivers
 
 		#preparing a user data
-		self.client.username = str(random.randint(0,num_users/2)+num_users/2)			
-		password = 'pass'+ str(self.client.username)
+		self.client.username = str(random.randint( 0,num_users/2 )+num_users/2 )			
+		password = 'pass'+ self.client.username
  
 		data = {"username": self.client.username,
 				"password": password }
 
 		with self.client.post('register', json = data, catch_response=True) as resp:
 			if resp.status_code == 409:
+			"""such user already exists"""
 				resp.success()
 				with self.client.post('login', json = data, catch_response=True) as resp2:
 				if resp2.status_code == 404:
@@ -102,22 +104,22 @@ class ReceiverTaskSet(TaskSet):
 				self.client.id = resp.json()['id']
 				Receivers.append(self.client.id)
 
+
 class Sender_dialogue(TaskSet):
 
 	@task(1)
 	def close_dialogue(self):
-		# pdb.set_trace()
-		self.client.delete('dialogues/{0}'.format(self.client.current_dialogue), name="DELETE /dialogues/<id>/" ) 
+		self.client.delete('dialogues/{0}'.format(self.client.current_dialogue), name="DELETE /dialogues/<id>" ) 
 		self.interrupt()
 
-	@task(10)
+	@task(20)
 	def send_message(self):
 		# pdb.set_trace()
-		with self.client.post('dialogues/{0}/messages_text'.format(self.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.clientid), 'body': 'aha'}, catch_response=True, name="dialogues/<id>/messages_text/") as resp:
+		with self.client.post('dialogues/{0}/messages_text'.format(self.client.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.clientid), 'body': 'aha'}, catch_response=True, name="dialogues/<id>/messages_text") as resp:
 			if resp.status_code == 200:
 				resp.success()
-				print resp.json()
-			else: resp.failure("unexpected error 0")			
+				print resp.text
+			else: resp.failure("Error sending a message")			
 
 	def on_start(self):
 		global Receivers
@@ -132,30 +134,33 @@ class Sender_dialogue(TaskSet):
 				time.sleep(5)
 			else:
 				break()
-		self.client.current_to_id = str(to_id)
+
 		# creating dialogue
-		with self.client.put('dialogues/{0}'.format(to_id), cookies = {'id': str(self.id) }, catch_response=True, name="PUT /dialogues/<id>/" ) as resp:
+		with self.client.put('dialogues/{0}'.format(to_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
 			if resp.status_code == 404:
 				print "chose invalid user"
 				resp.success()
 				self.interrupt()
+
 			if resp.status_code == 409:
-				print "logging into an exsting dialogue"
+				# opened existing dialogue
+				self.client.current_dialogue = str(resp.json()['dialogue_id'])
 				resp.success()
+
 	 		if resp.status_code == 200:
 	 			self.client.current_dialogue = str(resp.json()['dialogue_id'])
 	 			resp.success()
-	 		else: resp.failure("unexpected error 3")
+
+	 		else: resp.failure("Error creating Sender dialogue")
 
 	 	#opening dialogue
-	 	with self.client.post('dialogues/{0}'.format(to_id), json={'id': str(self.client.id) } catch_response=True, name="POST /dialogues/<id>/") as resp:
+	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/<id>") as resp:
 	 		if resp.status_code == 409:
-	 			print "Opened exsting dialogue"
+	 			# Opened existing dialogue
 	 			resp.success()
 	 		else: 
 	 			if resp.status_code == 200:
-	 				if resp.text:
-	 					print resp.json()
+	 				print resp.text
 	 				resp.success()
 	 			else: resp.failure("unexpected error with dialogue initialization")
 
@@ -171,7 +176,7 @@ class SenderTaskSet(TaskSet):
 	@task(5) 
 	def search_user(self):
 		# pdb.set_trace()
-		with self.client.post('users/search', json={'username': random.randint(0,num_users/2) }, catch_response=True) as resp:
+		with self.client.post('users/search', json={'username': random.randint(0,num_users) }, catch_response=True) as resp:
 			if resp.status_code == 404:
 				resp.success()
 			else: 

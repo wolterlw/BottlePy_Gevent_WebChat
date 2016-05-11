@@ -45,7 +45,6 @@ PUT /dialogues/<to_id:int>
 	json = {'id': user_id}
 
 	response =
-			= response[409, 'dialogue already exists'] #if failure
 			= {'dialogue_id': dialogue_id, 'to_name': to_username}
 
 POST /dialogues/<to_id:int>
