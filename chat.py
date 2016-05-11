@@ -152,7 +152,7 @@ def message_new(db,dialogue_id):
 	#could possibly be problems with large messages 
 	#make limitations to single message size according to max response size
 
-	from_id = int( json['id'] )
+	from_id = int( reques.json['id'] )
 	global d_dialogues
 	global message_cache
 
