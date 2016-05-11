@@ -170,7 +170,7 @@ def message_new(db,dialogue_id):
 			'body': request.json['body']
 			}
 		
-		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent) VALUES({m_id},{d_id},"{body}","{time}");'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['body'],time=msg['datetime']))
+		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,"?","?",?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
 
 		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
 		#ASYNCHRONOUS HANDLING
