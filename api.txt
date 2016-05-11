@@ -8,7 +8,7 @@ GET /static/<filename>
 
 POST /login
 	json = {'username': username,
- 		 'password': passowrd}
+ 		 'password': passoword}
 
  	response = 
  			= {'id': 'user_id'} # if correct data
