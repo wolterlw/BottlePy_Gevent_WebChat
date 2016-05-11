@@ -134,7 +134,7 @@ def dialogue(dialogue_id,db):
 	global num_messages
 	
 	from_id = int( request.json['id'] )
-	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchall()
+	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetcone()[0]
 	
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
