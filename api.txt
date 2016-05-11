@@ -46,13 +46,13 @@ PUT /dialogues/<to_id:int>
 
 	response =
 			= response[409, 'dialogue already exists'] #if failure
-			= {'dialogue_id': dialogue_id}
+			= {'dialogue_id': dialogue_id, 'to_name': to_username}
 
-GET /dialogues/<to_id:int>
+POST /dialogues/<to_id:int>
 	json = {'id': user_id}
 	response = 
 			= '' #if dialogue is empty
-			= { dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
+			= {'to_name': to_username, dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
 							  'from_id': from_id
 							  'body': message_body},
 

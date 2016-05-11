@@ -120,7 +120,7 @@ def create_dialogue(to_id,db):
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
-			return {'dialogue_id': dialogue_id, name = to_username}
+			return {'dialogue_id': dialogue_id, 'to_name' = to_username}
 	else: return HTTPError(404,'No such user')		
 
 #TODO: add a method to delete a dialogue
