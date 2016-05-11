@@ -109,7 +109,6 @@ def search_user(db):
 
 @route('/dialogues/<to_id:int>', method='PUT')
 def create_dialogue(to_id,db):
-	pdb.set_trace()
 	from_id = int( request.json['id'] )
 	#checking whether this dialogue already exists
 	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=? and to_id=?',(from_id,to_id)).fetchone()
@@ -121,20 +120,20 @@ def create_dialogue(to_id,db):
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
-			return {'dialogue_id': dialogue_id}
+			return {'dialogue_id': dialogue_id, name = to_username}
 	else: return HTTPError(404,'No such user')		
 
 #TODO: add a method to delete a dialogue
 
 
-@route('/dialogues/<dialogue_id:int>', method='GET')
+@route('/dialogues/<dialogue_id:int>', method='POST')
 def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()
 	global num_messages
 	
 	from_id = int( request.json['id'] )
-	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
+	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchall()
 	
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
@@ -143,7 +142,7 @@ def dialogue(dialogue_id,db):
 	if messages:
 		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
-		return { dialogue_id: messages_json }
+		return { dialogue_id: messages_json,  'to_name': to_name}
 	else: return None #empty dialogue
 
 
@@ -163,14 +162,11 @@ def message_new(db,dialogue_id):
 		return HTTPError(404,"dialogue not opened")
 	else:
 		
-		#TODO: change for something more cryptic 
-		from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
-
 		msg = {
 			'dialogue_id': dialogue_id,
 			'message_id': db.execute('SELECT MAX(message_id)+1 FROM messages').fetchone()[0],
 			'datetime' : request.json['datetime'],  #use request header date-time later 
-			'from': from_name, 
+			'from': from_id, 
 			'body': request.json['body']
 			}
 		
@@ -185,7 +181,7 @@ def message_new(db,dialogue_id):
 		return msg
 
 
-@route('/dialogues/<dialogue_id:int>/messages', method='GET')
+@route('/dialogues/<dialogue_id:int>/get_messages', method='POST')
 def message_updates(dialogue_id,db):
 	# pdb.set_trace()
 	from_id = int(request.json['id'])
