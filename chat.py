@@ -117,6 +117,7 @@ def create_dialogue(to_id,db):
 	if to_username:
 		to_username = to_username[0]
 		if dialogue_id:
+			dialogue_id = dialogue_id[0]
 			return {'dialogue_id': dialogue_id, 'to_name': to_username}
 		else:
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
@@ -157,11 +158,11 @@ def dialogue(dialogue_id,db):
 
 @route('/dialogues/<dialogue_id:int>/messages_text', method='POST') 
 def message_new(db,dialogue_id):
-	pdb.set_trace()
+	# pdb.set_trace()
 	#could possibly be problems with large messages 
 	#make limitations to single message size according to max response size
 
-	from_id = int( reques.json['id'] )
+	from_id = int( request.json['id'] )
 	global d_dialogues
 	global message_cache
 
@@ -183,7 +184,7 @@ def message_new(db,dialogue_id):
 		'other_online': other_online
 		}
 	
-	db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,"?","?",?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
+	db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,?,?,?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
 
 	db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
 	#ASYNCHRONOUS HANDLING
@@ -209,9 +210,21 @@ def message_updates(dialogue_id):
 		pass
 
 	if new_message_event.wait(timeout = 10000000):
-		msg = message_cache.pop(dialogue_id)
-		msg['other_online'] = 1
-		return msg
+		try:
+			msg = message_cache.pop(dialogue_id)
+		except KeyError:
+			msg = {
+				'dialogue_id': dialogue_id,
+				'message_id': -1,
+				'datetime' : time.strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
+				'from': -1, 
+				'body': 'user is offline',
+				'other_online': 0
+				}
+			return msg	
+		else:
+			msg['other_online'] = 1
+			return msg
 	else:
 		msg = {
 		'dialogue_id': dialogue_id,
@@ -221,6 +234,7 @@ def message_updates(dialogue_id):
 		'body': 'user is offline',
 		'other_online': 0
 		}
+		return msg
 	# var 1) if new_message.is_set take last message entry for current dialogue and return it  
 	# 
 	# var 2) try using queues for this

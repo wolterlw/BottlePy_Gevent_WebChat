@@ -13,6 +13,15 @@ Senders = []
 # all users have <number> as username
 # and pass<number> as password
 
+
+def random_word(file_name):
+	file = open(file_name,'r')
+	for line in file:
+		for word in line.split(' '):
+			yield word
+
+word_gen = random_word('LoremIpsum')
+
 class Receiver_dialogue(TaskSet):
 
 	@task(1)
@@ -22,7 +31,7 @@ class Receiver_dialogue(TaskSet):
 
 	@task(20)
 	def poll_message(self):
-		with self.client.get('dialogues/{0}/messages'.format(self.client.current_dialogue), catch_response = True, name = "GET /dialogues/<int>/messages") as resp:
+		with self.client.post('dialogues/{0}/get_messages'.format(self.client.current_dialogue), json={'id': str(self.client.id)} ,catch_response = True, name = "GET /dialogues/<int>/get_messages") as resp:
 			if resp.status_code == 200:
 				resp.success()
 				print resp.text
@@ -40,7 +49,7 @@ class Receiver_dialogue(TaskSet):
 			except Exception:
 				time.sleep(5)
 			else:
-				break()
+				break
 
 		# creating dialogue
 		with self.client.put('dialogues/{0}'.format(from_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
@@ -57,7 +66,7 @@ class Receiver_dialogue(TaskSet):
 	 		else: resp.failure("Error initializing Receiver dialogue")
 
 	 	#opening dialogue
-	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) } catch_response=True, name="POST /dialogues/<id>") as resp:
+	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/<id>") as resp:
 	 		if resp.status_code == 409:
 	 			print "Opened exsting dialogue"
 	 			resp.success()
@@ -67,7 +76,8 @@ class Receiver_dialogue(TaskSet):
 	 					print resp.text
 	 				resp.success()
 	 			else: resp.failure("unexpected error with dialogue initialization")
-
+	 	
+	 	self.poll_message()
 
 class ReceiverTaskSet(TaskSet):
 
@@ -75,7 +85,7 @@ class ReceiverTaskSet(TaskSet):
 
 
 	def on_start(self):
-	"""initializing a user and assignng it a password"""
+		"""initializing a user and assignng it a password"""
 		global num_users
 		global Receivers
 
@@ -88,16 +98,16 @@ class ReceiverTaskSet(TaskSet):
 
 		with self.client.post('register', json = data, catch_response=True) as resp:
 			if resp.status_code == 409:
-			"""such user already exists"""
+				"""such user already exists"""
 				resp.success()
 				with self.client.post('login', json = data, catch_response=True) as resp2:
-				if resp2.status_code == 404:
-					resp2.failure('password issue')
-					self.interrupt()
-				else: 
-					resp2.success()
-					self.client.id = resp2.json()['id']
-					Receivers.append(self.client.id)
+					if resp2.status_code == 404:
+						resp2.failure('password issue')
+						self.interrupt()
+					else: 
+						resp2.success()
+						self.client.id = resp2.json()['id']
+						Receivers.append(self.client.id)
 
 			else: 
 				resp.success()
@@ -109,13 +119,12 @@ class Sender_dialogue(TaskSet):
 
 	@task(1)
 	def close_dialogue(self):
-		self.client.delete('dialogues/{0}'.format(self.client.current_dialogue), name="DELETE /dialogues/<id>" ) 
 		self.interrupt()
 
 	@task(20)
 	def send_message(self):
 		# pdb.set_trace()
-		with self.client.post('dialogues/{0}/messages_text'.format(self.client.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.clientid), 'body': 'aha'}, catch_response=True, name="dialogues/<id>/messages_text") as resp:
+		with self.client.post('dialogues/{0}/messages_text'.format(self.client.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.client.id), 'body': word_gen.next(), 'id': str(self.client.id) }, catch_response=True, name="dialogues/<id>/messages_text") as resp:
 			if resp.status_code == 200:
 				resp.success()
 				print resp.text
@@ -133,7 +142,7 @@ class Sender_dialogue(TaskSet):
 			except Exception:
 				time.sleep(5)
 			else:
-				break()
+				break
 
 		# creating dialogue
 		with self.client.put('dialogues/{0}'.format(to_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
@@ -170,8 +179,7 @@ class SenderTaskSet(TaskSet):
 
 	@task(2)
 	def get_userpage(self):
-		# pdb.set_trace()
-		self.client.get('users/{0}'.format(self.client.id]), name='/users/<user_id>')
+		self.client.get('users/{0}'.format(self.client.id), name='/users/<user_id>')
 	
 	@task(5) 
 	def search_user(self):
@@ -201,13 +209,13 @@ class SenderTaskSet(TaskSet):
 			if resp.status_code == 409:
 				resp.success()
 				with self.client.post('login', json = data, catch_response=True) as resp2:
-				if resp2.status_code == 404:
-					resp2.failure('password issue')
-					self.interrupt()
-				else: 
-					resp2.success()
-					self.client.id = resp2.json()['id']
-					Senders.append(self.client.id)
+					if resp2.status_code == 404:
+						resp2.failure('password issue')
+						self.interrupt()
+					else: 
+						resp2.success()
+						self.client.id = resp2.json()['id']
+						Senders.append(self.client.id)
 
 			else: 
 				resp.success()
@@ -216,13 +224,14 @@ class SenderTaskSet(TaskSet):
 
 class Sender(HttpLocust):
 	"""the one who promised to call"""
-	# weight = 3 #this attribute "how often this type of user calls"
+	weight = 1 #this attribute "how often this type of user calls"
 	task_set = SenderTaskSet
 	min_wait = 50
 	max_wait = 1500
 
 class Receiver(HttpLocust):
 	"""the girl who waited"""
-	task_set = WaiterTaskSet
+	weight = 1
+	task_set = ReceiverTaskSet
 	min_wait = 5000
 	max_wait = 150000000
