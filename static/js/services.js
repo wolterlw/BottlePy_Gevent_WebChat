@@ -114,6 +114,23 @@ msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($
 			});
 		return deferred.promise;
 	}
+	obj.postMessage = function(msgBody) {
+		var date = (new Date).getFullYear() +"-"+ ((new Date).getMonth()+1) +"-"+(new Date).getDate() +" ";
+		date += (new Date).getHours() +":"+ (new Date).getMinutes() +":"+ (new Date).getSeconds();
+		var dataToSend = {'id': AuthService.getId(), datetime: date, 'body': msgBody};
+		var deferred = $q.defer();
+		$http.post("/dialogues/"+this.getDialogId()+"/messages_text", dataToSend)
+			.success(function(data) {
+				console.log("DialogService, sendMessage, data=", data);
+				deferred.resolve(data);
+			})
+			.error(function(data) {
+				console.log("DialogService, sendMessage, data=", data);
+				//handle error
+				deferred.reject(data);
+			})
+		return deferred.promise;	
+	}
 	return obj;
 }]);
 

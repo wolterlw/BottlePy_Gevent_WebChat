@@ -61,7 +61,8 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 
 msngrControllers.controller('DialogController', ['DialogService', 'AuthService', function(DialogService, AuthService) {
 	var self = this;
-	var msgs;
+	this.msgs;
+	this.msgBody = "";
 
 	DialogService.getMessageHistory().then(function(data) {
 		console.log("DialogController, data=", data);
@@ -80,5 +81,19 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 	this.setRightHeader = function(id) {
 		if(this.isIdMatch(id)) return "text-right"
 		else return "";
+	}
+	this.sendMessage = function() {
+		console.log("DialogController, sendMessage, this.msgBody=", this.msgBody);
+		DialogService.postMessage(this.msgBody).then(function(data) {
+			var newMsg = {
+				body: data.body,
+				from_id: data.from,
+				datetime: data.datetime
+			}
+			self.msgs.push(newMsg);
+		}, function(data) {
+			//handle error
+			console.log("DialogController, sendMessage, data=", data);
+		});
 	}
 }]);

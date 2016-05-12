@@ -114,13 +114,14 @@ def create_dialogue(to_id,db):
 	dialogue_id = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=? and to_id=?',(from_id,to_id)).fetchone()
 	to_username = db.execute('SELECT username FROM users WHERE id=?',(to_id,) ).fetchone()
 	if to_username:
+		to_username = to_username[0]
 		if dialogue_id:
 			return HTTPError(409, 'dialogue already exists')
 		else:
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(to_id, from_id, dialogue_id) )
-			return {'dialogue_id': dialogue_id}
+			return {'dialogue_id': dialogue_id, 'to_name': to_username}
 	else: return HTTPError(404,'No such user')		
 
 #TODO: add a method to delete a dialogue
@@ -133,7 +134,7 @@ def dialogue(dialogue_id,db):
 	global num_messages
 	
 	from_id = int( request.json['id'] )
-	names = db.execute('SELECT users.username, users.id FROM users, dialogues WHERE users.id = dialogues.from_id and dialogues.dialogue_id = ?;',(dialogue_id,)).fetchall()
+	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchone()[0]
 	
 	if not dialogue_id in d_dialogues:
 		d_dialogues[dialogue_id] = Event() #new message event for current dialogue
@@ -142,7 +143,7 @@ def dialogue(dialogue_id,db):
 	if messages:
 		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
-		return { dialogue_id: messages_json }
+		return { dialogue_id: messages_json,  'to_name': to_name}
 	else: return None #empty dialogue
 
 
@@ -152,7 +153,7 @@ def message_new(db,dialogue_id):
 	#could possibly be problems with large messages 
 	#make limitations to single message size according to max response size
 
-	from_id = int( json['id'] )
+	from_id = int( reques.json['id'] )
 	global d_dialogues
 	global message_cache
 
@@ -162,18 +163,15 @@ def message_new(db,dialogue_id):
 		return HTTPError(404,"dialogue not opened")
 	else:
 		
-		#TODO: change for something more cryptic 
-		from_name = db.execute('SELECT username FROM users WHERE id=?', str(from_id) ).fetchone()[0]
-
 		msg = {
 			'dialogue_id': dialogue_id,
 			'message_id': db.execute('SELECT MAX(message_id)+1 FROM messages').fetchone()[0],
 			'datetime' : request.json['datetime'],  #use request header date-time later 
-			'from': from_name, 
+			'from': from_id, 
 			'body': request.json['body']
 			}
 		
-		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent) VALUES({m_id},{d_id},"{body}","{time}");'.format(m_id=msg['message_id'], d_id=msg['dialogue_id'], body=msg['body'],time=msg['datetime']))
+		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,"?","?",?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
 
 		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
 		#ASYNCHRONOUS HANDLING
@@ -184,7 +182,7 @@ def message_new(db,dialogue_id):
 		return msg
 
 
-@route('/dialogues/<dialogue_id:int>/messages', method='GET')
+@route('/dialogues/<dialogue_id:int>/get_messages', method='POST')
 def message_updates(dialogue_id,db):
 	# pdb.set_trace()
 	from_id = int(request.json['id'])
