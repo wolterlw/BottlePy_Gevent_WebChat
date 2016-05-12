@@ -92,11 +92,12 @@ def user_homepage(user_id,db):
 
 @route('/users/<user_id:int>', method='DELETE')
 def logout(user_id,db):
+	pdb.set_trace()
 	global d_dialogues
 
-	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',user_id)
+	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',(user_id,))
 	for dialogue in dialogues:
-		d_dialogues.pop[dialogue]
+		d_dialogues.pop(dialogue[0])
 
 @route('/users/search', method='POST')
 def search_user(db):
@@ -148,7 +149,7 @@ def dialogue(dialogue_id,db):
 	from_id = int( request.json['id'] )
 	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchone()[0]
 
-	messages = db.execute('SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY t_sent ASC LIMIT ?;', (dialogue_id,num_messages) ).fetchall()
+	messages = db.execute('SELECT * FROM (SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY message_id DESC LIMIT ?) ORDER BY t_sent ASC;', (dialogue_id,num_messages) ).fetchall()
 	if messages:
 		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
@@ -197,7 +198,7 @@ def message_new(db,dialogue_id):
 
 @route('/dialogues/<dialogue_id:int>/get_messages', method='POST')
 def message_updates(dialogue_id):
-	pdb.set_trace()
+	# pdb.set_trace()
 	from_id = int(request.json['id'])
 	global d_dialogues
 	global message_cache
@@ -216,7 +217,7 @@ def message_updates(dialogue_id):
 		msg = {
 		'dialogue_id': dialogue_id,
 		'message_id': -1,
-		'datetime' : time.strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
+		'datetime' : strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
 		'from': -1, 
 		'body': 'user is offline',
 		'other_online': 0
