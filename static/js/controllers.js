@@ -67,34 +67,39 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 	DialogService.getMessageHistory().then(function(data) {
 		console.log("DialogController, data=", data);
 		self.msgs = data[DialogService.getDialogId()];
-		console.log("DialogController, self.msgs=", self.msgs);
-		//have no idea where it supposed to be
-		$("html, body").animate({ scrollTop: $(document).height()+150 }, "fast");
+		console.log("DialogController, self.msgs=", self.msgs);		
 	}, function(data) {
 		//handle error
 		console.log("DialogController, data=", data);
 	});
 
 	this.isIdMatch = function(id) {
+		//console.log("DialogController.isIdMatch");
+		//bad code down here
+		$('html, body').animate({scrollTop: $(".container-fluid .row .col-md-12>div:last-child").offset().top}, 0);
 		return (AuthService.getId() == id); 
 	}
 	this.setRightHeader = function(id) {
-		if(this.isIdMatch(id)) return "text-right"
+		//console.log("DialogController.setRightHeader");
+		if(this.isIdMatch(id)) return "text-right";
 		else return "";
 	}
 	this.getUsername = function(id) {
-		if(this.isIdMatch(id)) return "Me"
+		//console.log("DialogController.getUsername!");
+		if(this.isIdMatch(id)) return "Me";
 		else return DialogService.getName();
 	}
 	this.sendMessage = function() {
 		console.log("DialogController, sendMessage, this.msgBody=", this.msgBody);
 		DialogService.postMessage(this.msgBody).then(function(data) {
+			self.msgBody = "";
 			var newMsg = {
 				body: data.body,
 				from_id: data.from,
 				datetime: data.datetime
 			}
 			self.msgs.push(newMsg);
+			$('html, body').animate({scrollTop: $(".container-fluid .row .col-md-12>div:last-child").offset().top}, "slow");
 		}, function(data) {
 			//handle error
 			console.log("DialogController, sendMessage, data=", data);

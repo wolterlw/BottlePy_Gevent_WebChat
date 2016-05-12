@@ -18,6 +18,7 @@ from gevent.event import Event
 import bottle
 from bottle import run, route, get, post, static_file, template, request, response, redirect, HTTPError
 from bottle.ext import sqlite
+from time import strftime
 
 host_name = 'localhost'
 port_num = 8080
@@ -81,18 +82,18 @@ def user_homepage(user_id,db):
 	"""returns a Json {'username': 'dialogue_id'} """
 	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
 
-	#TODO: check for appropriate cookies
-
 	dialogues = db.execute(
 	'SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;',
 	(user_id,) ).fetchall()
 	return dict( (dialogue[0],dialogue[1]) for dialogue in dialogues )
 
 @route('/users/<user_id:int>', method='DELETE')
-def logout(user_id):
-	response.delete_cookie('id')
-	#TODO: check whether all dialogues are closed
+def logout(user_id,db):
+	global d_dialogues
 
+	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',user_id)
+	for dialogue in dialogues:
+		d_dialogues.pop[dialogue]
 
 @route('/users/search', method='POST')
 def search_user(db):
@@ -116,7 +117,8 @@ def create_dialogue(to_id,db):
 	if to_username:
 		to_username = to_username[0]
 		if dialogue_id:
-			return HTTPError(409, 'dialogue already exists')
+			dialogue_id = dialogue_id[0]
+			return {'dialogue_id': dialogue_id, 'to_name': to_username}
 		else:
 			dialogue_id = int(db.execute('SELECT MAX(dialogue_id)+1 FROM dialogues').fetchone()[0]) 
 			db.execute('INSERT INTO dialogues (from_id,to_id,dialogue_id,num_messages,last_updated) VALUES(?,?,?,0,CURRENT_TIMESTAMP);',(from_id, to_id, dialogue_id) )
@@ -132,6 +134,13 @@ def dialogue(dialogue_id,db):
 	"""Intended to use already created dialogues"""	
 	# pdb.set_trace()
 	global num_messages
+	global d_dialogues
+
+	other_online = 1
+
+	if not dialogue_id in d_dialogues:
+		d_dialogues[dialogue_id] = Event()
+		other_online = 0
 	
 	from_id = int( request.json['id'] )
 	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchone()[0]
@@ -143,61 +152,89 @@ def dialogue(dialogue_id,db):
 	if messages:
 		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
-		return { dialogue_id: messages_json,  'to_name': to_name}
+		return { dialogue_id: messages_json,  'to_name': to_name, 'other_online': other_online}
 	else: return None #empty dialogue
 
 
 @route('/dialogues/<dialogue_id:int>/messages_text', method='POST') 
 def message_new(db,dialogue_id):
-	pdb.set_trace()
+	# pdb.set_trace()
 	#could possibly be problems with large messages 
 	#make limitations to single message size according to max response size
 
-	from_id = int( reques.json['id'] )
+	from_id = int( request.json['id'] )
 	global d_dialogues
 	global message_cache
 
 	try:
 		new_message_event = d_dialogues[dialogue_id]
 	except Exception:
-		return HTTPError(404,"dialogue not opened")
+		other_online = 0
+		d_dialogues[dialogue_id] = Event()
+		new_message_event = d_dialogues[dialogue_id]
 	else:
+		other_online = 1
 		
-		msg = {
-			'dialogue_id': dialogue_id,
-			'message_id': db.execute('SELECT MAX(message_id)+1 FROM messages').fetchone()[0],
-			'datetime' : request.json['datetime'],  #use request header date-time later 
-			'from': from_id, 
-			'body': request.json['body']
-			}
-		
-		db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,"?","?",?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
+	msg = {
+		'dialogue_id': dialogue_id,
+		'message_id': db.execute('SELECT MAX(message_id)+1 FROM messages').fetchone()[0],
+		'datetime' : request.json['datetime'],  #use request header date-time later 
+		'from': from_id, 
+		'body': request.json['body'],
+		'other_online': other_online
+		}
+	
+	db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,?,?,?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
 
-		db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
-		#ASYNCHRONOUS HANDLING
-		message_cache[dialogue_id] = msg
-		new_message_event.set()
-		new_message_event.clear()
-		#this one is a Json encoded string
-		return msg
+	db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
+	#ASYNCHRONOUS HANDLING
+	message_cache[dialogue_id] = msg
+	new_message_event.set()
+	new_message_event.clear()
+	#this one is a Json encoded string
+	return msg
 
 
 @route('/dialogues/<dialogue_id:int>/get_messages', method='POST')
-def message_updates(dialogue_id,db):
+def message_updates(dialogue_id):
 	# pdb.set_trace()
 	from_id = int(request.json['id'])
 	global d_dialogues
 	global message_cache
-	new_message_event = d_dialogues[dialogue_id]
+	try:
+		new_message_event = d_dialogues[dialogue_id]
+	except Exception:
+		d_dialogues[dialogue_id] = Event
+		new_message_event = d_dialogues[dialogue_id]
+	else:
+		pass
 
-	# DEAL WITH CODE HERE
-	if new_message_event:
-		new_message_event.wait()
-		msg = message_cache.pop(dialogue_id)
+	if new_message_event.wait(timeout = 10000000):
+		try:
+			msg = message_cache.pop(dialogue_id)
+		except KeyError:
+			msg = {
+				'dialogue_id': dialogue_id,
+				'message_id': -1,
+				'datetime' : time.strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
+				'from': -1, 
+				'body': 'user is offline',
+				'other_online': 0
+				}
+			return msg	
+		else:
+			msg['other_online'] = 1
+			return msg
+	else:
+		msg = {
+		'dialogue_id': dialogue_id,
+		'message_id': -1,
+		'datetime' : time.strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
+		'from': -1, 
+		'body': 'user is offline',
+		'other_online': 0
+		}
 		return msg
-	else: 
-		return HTTPError(404,"dialogue not opened")
-	
 	# var 1) if new_message.is_set take last message entry for current dialogue and return it  
 	# 
 	# var 2) try using queues for this
@@ -206,10 +243,6 @@ def message_updates(dialogue_id,db):
 	
 	#TODO: USE SESSIONS
 
-	
-@route('/dialogues/<dialogue_id :int>',method='DELETE')
-def dialugue_close(db,d_id):
-	d_dialogues.pop(d_id)
 
 
 #================================== BASIC SERVER SETUP =======================================================
@@ -219,5 +252,5 @@ app = bottle.app()
 app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
 
 if __name__ == '__main__':
-	bottle.debug(True)
-	bottle.run(app=app, server='gevent', host=host_name, port=port_num)
+	bottle.debug(False)
+	bottle.run(app=app, server='gevent', host=host_name, port=port_num, quiet=False)

@@ -87,10 +87,10 @@ msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($
 	}
 	obj.setName = function(name) {
 		toName = name;
-		console.log("DialogService, setDialogId, toName=", toName);
+		console.log("DialogService, setName, toName=", toName);
 	}
 	obj.getName = function() {
-		console.log("DialogService, getDialogId, toName=", toName);
+		console.log("DialogService, getName, toName=", toName);
 		return toName;
 	}
 	obj.createDialog = function(toId) {
