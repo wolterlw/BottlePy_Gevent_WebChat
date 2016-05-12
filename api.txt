@@ -1,22 +1,20 @@
 
-GET /static/<filename>/
+GET /static/<filename>
 
 	 #gets all the HTML CSS and Js files
-
-GETмамсмсс /
 
 	 # if cookies['id'] is present - redirect to /users/<user_id>/
 	 #else redirect to login page
 
-POST /login/
+POST /login
 	json = {'username': username,
- 		 'password': passowrd}
+ 		 'password': passoword}
 
  	response = 
  			= {'id': 'user_id'} # if correct data
  			= response[404,'user not found'] #if data incorrect check with status_code 
 
-POST /register/
+POST /register
 	json = {'username': username,
  		 'password': password}
 
@@ -26,13 +24,13 @@ POST /register/
 
 #=========================== USER SECTION ===========================
 
-GET /users/<user_id:int>/
+GET /users/<user_id:int>
 	response =	{'username': 'dialogue_id', 'username2': 'dialogue_id2' ...}
 
-DELETE /users/<user_id:int>/
+DELETE /users/<user_id:int>
 	#deletes used cookies
 
-POST /users/search/
+POST /users/search
 	json = {'username': username}
 
 	response = 
@@ -43,15 +41,17 @@ POST /users/search/
 
 #=========================== DIALOGUE SECTION ===========================
 
-PUT /dialogues/<to_id:int>/
-	response =
-			= response[409, 'dialogue already exists'] #if failure
-			= {'dialogue_id': dialogue_id}
+PUT /dialogues/<to_id:int>
+	json = {'id': user_id}
 
-GET /dialogues/<to_id:int>/
+	response =
+			= {'dialogue_id': dialogue_id, 'to_name': to_username}
+
+POST /dialogues/<to_id:int>
+	json = {'id': user_id}
 	response = 
 			= '' #if dialogue is empty
-			= { dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
+			= {'to_name': to_username, dialogue_id: [ {'datetime': YYYY-MM-DD HH:mm:ss, 
 							  'from_id': from_id
 							  'body': message_body},
 
@@ -60,8 +60,9 @@ GET /dialogues/<to_id:int>/
 							  'body': message_body2} ]
 				}
 
-POST /dialogues/<dialogue_id:int>/messages_text/
-	json = {'datetime': YYYY-MM-DD HH:mm:ss,
+POST /dialogues/<dialogue_id:int>/messages_text
+	json = {'id': id,
+			'datetime': YYYY-MM-DD HH:mm:ss,
 			'body': message_body 
 			}
 
@@ -72,7 +73,8 @@ POST /dialogues/<dialogue_id:int>/messages_text/
 				'body': message_body				
 				}
 
-GET /dialogue/<dialogue_id:int>/messages/
+GET /dialogue/<dialogue_id:int>/messages
+	json = {'id': user_id}
 	response = 
 			= response[ 404, 'dialogue not opened' ] # if no such dialogue opened
 			= {'dialogue_id': dialogue_id,
@@ -82,5 +84,5 @@ GET /dialogue/<dialogue_id:int>/messages/
 				'body': message_body				
 				} #on success
 
-DELETE /dialogues/<dialogue_id:int>/
+DELETE /dialogues/<dialogue_id:int>
 	#do every time dailogue is closed
