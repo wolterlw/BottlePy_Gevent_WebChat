@@ -62,7 +62,7 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 		$http.post("/users/search", username)
 			.success(function(data) {
 				console.log("ContactService, addContact: data=", data);
-				DialogService.createDialog(data.id)
+				DialogService.createDialog(data.id);
 				PathService.goToDialog(username.username);
 			})
 			.error(function(data) {
@@ -75,6 +75,7 @@ msngrServices.factory('ContactService', ['$http', '$q', 'AuthService', 'PathServ
 
 msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($http, $q, AuthService) {
 	var dialogId;
+	var toName;
 	var obj = {};
 	obj.setDialogId = function(id) {
 		dialogId = id;
@@ -84,11 +85,20 @@ msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($
 		console.log("DialogService, getDialogId, dialogId=", dialogId);
 		return dialogId;
 	}
+	obj.setName = function(name) {
+		toName = name;
+		console.log("DialogService, setDialogId, toName=", toName);
+	}
+	obj.getName = function() {
+		console.log("DialogService, getDialogId, toName=", toName);
+		return toName;
+	}
 	obj.createDialog = function(toId) {
 		var self = this;
 		$http({ method: "PUT", url: "/dialogues/"+toId, data: {'id': AuthService.getId()} })
 			.then(function(response) {
 				self.setDialogId(response.data.dialogue_id);
+				self.setName(response.data.toName);
 				console.log("DialogService, createDialog method, sendId=", AuthService.getId());
 				console.log("DialogService, createDialog method, toId=", toId);
 				console.log("DialogService, createDialog method, response=", response);
@@ -105,6 +115,7 @@ msngrServices.factory('DialogService', ['$http', '$q', 'AuthService', function($
 		$http.post("/dialogues/"+self.getDialogId(), {'id': AuthService.getId()})
 			.success(function (data) {
 				console.log("DialogService, getMessageHistory: data=", data);
+				self.setName(data.to_name);
 				deferred.resolve(data);
 			})
 			.error(function(data) {
