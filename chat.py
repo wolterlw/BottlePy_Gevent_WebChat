@@ -252,5 +252,5 @@ app = bottle.app()
 app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
 
 if __name__ == '__main__':
-	bottle.debug(True)
-	bottle.run(app=app, server='gevent', host=host_name, port=port_num)
+	bottle.debug(False)
+	bottle.run(app=app, server='gevent', host=host_name, port=port_num, quiet=False)

@@ -2,11 +2,12 @@ from locust import HttpLocust, TaskSet, task
 import random 
 import pdb
 import time
-
+from gevent import monkey
+monkey.patch_all()
 
 #TODO: make self.client.id a string and skip converting it every time 
 
-num_users = 100
+num_users = 10000
 Receivers = []
 Senders = []
 
@@ -29,12 +30,12 @@ class Receiver_dialogue(TaskSet):
 		# pdb.set_trace()
 		self.interrupt()
 
-	@task(20)
+	@task(3)
 	def poll_message(self):
-		with self.client.post('dialogues/{0}/get_messages'.format(self.client.current_dialogue), json={'id': str(self.client.id)} ,catch_response = True, name = "GET /dialogues/<int>/get_messages") as resp:
+		with self.client.post('dialogues/{0}/get_messages'.format(self.client.current_dialogue), json={'id': str(self.client.id)} ,catch_response = True, name = "GET /dialogues/dialogue_id/get_messages") as resp:
 			if resp.status_code == 200:
 				resp.success()
-				print resp.text
+				# print resp.text
 			else: resp.failure("unexpected error in long poll")			
 
 	def on_start(self):
@@ -52,12 +53,12 @@ class Receiver_dialogue(TaskSet):
 				break
 
 		# creating dialogue
-		with self.client.put('dialogues/{0}'.format(from_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
+		with self.client.put('dialogues/{0}'.format(from_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/dialogue_id" ) as resp:
 			if resp.status_code == 404:
 				resp.failure('somehow chose invalid user')
 				self.interrupt()
 			if resp.status_code == 409:
-				print "logging into an exsting dialogue"
+				#  print "logging into an exsting dialogue"
 				self.client.current_dialogue = str(resp.json()['dialogue_id'])
 				self.success()
 	 		if resp.status_code == 200:
@@ -66,17 +67,15 @@ class Receiver_dialogue(TaskSet):
 	 		else: resp.failure("Error initializing Receiver dialogue")
 
 	 	#opening dialogue
-	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/<id>") as resp:
+	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/<dialogue_id") as resp:
 	 		if resp.status_code == 409:
-	 			print "Opened exsting dialogue"
+	 			#  print "Opened exsting dialogue"
 	 			resp.success()
 	 		else: 
 	 			if resp.status_code == 200:
-	 				if resp.text:
-	 					print resp.text
 	 				resp.success()
 	 			else: resp.failure("unexpected error with dialogue initialization")
-	 	
+	 	# print "polling a message"
 	 	self.poll_message()
 
 class ReceiverTaskSet(TaskSet):
@@ -121,13 +120,13 @@ class Sender_dialogue(TaskSet):
 	def close_dialogue(self):
 		self.interrupt()
 
-	@task(20)
+	@task(3)
 	def send_message(self):
 		# pdb.set_trace()
-		with self.client.post('dialogues/{0}/messages_text'.format(self.client.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.client.id), 'body': word_gen.next(), 'id': str(self.client.id) }, catch_response=True, name="dialogues/<id>/messages_text") as resp:
+		with self.client.post('dialogues/{0}/messages_text'.format(self.client.current_dialogue) , json = {'datetime': time.strftime('%Y-%m-%d %H:%M:%S'), 'from_id': str(self.client.id), 'body': word_gen.next(), 'id': str(self.client.id) }, catch_response=True, name="dialogues/dialogue_id/messages_text") as resp:
 			if resp.status_code == 200:
 				resp.success()
-				print resp.text
+				#  print resp.text
 			else: resp.failure("Error sending a message")			
 
 	def on_start(self):
@@ -147,7 +146,7 @@ class Sender_dialogue(TaskSet):
 		# creating dialogue
 		with self.client.put('dialogues/{0}'.format(to_id), json = {'id': str(self.client.id) }, catch_response=True, name="PUT /dialogues/<id>" ) as resp:
 			if resp.status_code == 404:
-				print "chose invalid user"
+				#  print "chose invalid user"
 				resp.success()
 				self.interrupt()
 
@@ -163,13 +162,13 @@ class Sender_dialogue(TaskSet):
 	 		else: resp.failure("Error creating Sender dialogue")
 
 	 	#opening dialogue
-	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/<id>") as resp:
+	 	with self.client.post('dialogues/{0}'.format(self.client.current_dialogue), json={'id': str(self.client.id) }, catch_response=True, name="POST /dialogues/dialogue_id") as resp:
 	 		if resp.status_code == 409:
 	 			# Opened existing dialogue
 	 			resp.success()
 	 		else: 
 	 			if resp.status_code == 200:
-	 				print resp.text
+	 				#  print resp.text
 	 				resp.success()
 	 			else: resp.failure("unexpected error with dialogue initialization")
 
@@ -179,7 +178,7 @@ class SenderTaskSet(TaskSet):
 
 	@task(2)
 	def get_userpage(self):
-		self.client.get('users/{0}'.format(self.client.id), name='/users/<user_id>')
+		self.client.get('users/{0}'.format(self.client.id), name='/users/dialogue_id')
 	
 	@task(5) 
 	def search_user(self):
