@@ -69,7 +69,7 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 		self.msgs = data[DialogService.getDialogId()];
 		console.log("DialogController, self.msgs=", self.msgs);
 		//have no idea where it supposed to be
-		$("html, body").animate({ scrollTop: $(document).height() }, "fast");
+		$("html, body").animate({ scrollTop: $(document).height()+150 }, "fast");
 	}, function(data) {
 		//handle error
 		console.log("DialogController, data=", data);
@@ -81,6 +81,10 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 	this.setRightHeader = function(id) {
 		if(this.isIdMatch(id)) return "text-right"
 		else return "";
+	}
+	this.getUsername = function(id) {
+		if(this.isIdMatch(id)) return "Me"
+		else return DialogService.getName();
 	}
 	this.sendMessage = function() {
 		console.log("DialogController, sendMessage, this.msgBody=", this.msgBody);
