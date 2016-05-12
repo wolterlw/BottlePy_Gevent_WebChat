@@ -59,7 +59,7 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 	}
 }]);
 
-msngrControllers.controller('DialogController', ['DialogService', 'AuthService', function(DialogService, AuthService) {
+msngrControllers.controller('DialogController', ['DialogService', 'AuthService', '$http', function(DialogService, AuthService, $http) {
 	var self = this;
 	this.msgs;
 	this.msgBody = "";
@@ -92,17 +92,36 @@ msngrControllers.controller('DialogController', ['DialogService', 'AuthService',
 	this.sendMessage = function() {
 		console.log("DialogController, sendMessage, this.msgBody=", this.msgBody);
 		DialogService.postMessage(this.msgBody).then(function(data) {
+			//TODO: remove this code below if long poll would return msgBody
 			self.msgBody = "";
 			var newMsg = {
 				body: data.body,
 				from_id: data.from,
 				datetime: data.datetime
 			}
-			self.msgs.push(newMsg);
+			//self.msgs.push(newMsg);
 			$('html, body').animate({scrollTop: $(".container-fluid .row .col-md-12>div:last-child").offset().top}, "slow");
 		}, function(data) {
 			//handle error
 			console.log("DialogController, sendMessage, data=", data);
 		});
 	}
+	this.getNewMessage = function getNewMessage() {
+		$http.post("/dialogues/"+DialogService.getDialogId()+"/get_messages", {'id': AuthService.getId()})
+			.success(function(data) {
+				console.log("DialogController, getNewMessage, data=", data);
+				var newMsg = {
+					body: data.body,
+					from_id: data.from,
+					datetime: data.datetime
+				};
+				self.msgs.push(newMsg);
+				self.getNewMessage.call(self);
+			})
+			.error(function(data) {
+				console.log("DialogController, getNewMessage, data=", data);
+				//handle error
+			})
+	}
+	this.getNewMessage();
 }]);
