@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12">
+        <div ng-repeat="msg in dialogCtrl.msgs" class="media">
+            <div ng-show="!dialogCtrl.isIdMatch(msg.from_id)" class="media-left media-top">
+                <img class="media-object img-circle" src="http://www.placehold.it/40x40">
+            </div>
+            <div class="media-body msg">
+                <h4 class="media-heading {{dialogCtrl.setRightHeader(msg.from_id)}}">{{dialogCtrl.getUsername(msg.from_id)}}<span class="text-muted"> {{msg.datetime}}</span></h4>
+                <p class="{{dialogCtrl.setRightHeader(msg.from_id)}}"> 
+                    {{msg.body}}
+                </p>
+            </div>
+            <div ng-show="dialogCtrl.isIdMatch(msg.from_id)" class="media-right media-top">
+                <img class="media-object img-circle" src="http://www.placehold.it/40x40">
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row send-form">
+            <div class="col-md-10 col-sm-10 col-xs-9 no-padding">
+                <textarea ng-model="dialogCtrl.msgBody" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-3 no-padding">
+                <button ng-click="dialogCtrl.sendMessage()" class="btn btn-info btn-block btn-send">Send</button>
+            </div>
+        </div>
+    </div>
+</footer>

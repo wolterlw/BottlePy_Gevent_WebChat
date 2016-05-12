@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html ng-app="messenger" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>inTouch</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" type="text/css" rel="stylesheet">
+    <link href="css/sidebar.css" type="text/css" rel="stylesheet">
+    <link href="css/global.css" type="text/css" rel="stylesheet">
+    <link href="css/dialog.css" type="text/css" rel="stylesheet">
+    <link href="css/forms.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        <div ng-controller="SidebarController as sidebarCtrl" id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+            	<img class="img-responsive user-photo" src="http://placehold.it/150x150">
+                <li class="sidebar-brand">
+                    [Username]
+                </li>
+                <!--<li>
+                    <a href="#">Contacts</a>
+                </li>-->
+                <li>
+                    <a ng-click="sidebarCtrl.visitMessages()">Messages</a>
+                </li>
+                <!--<li>
+                    <a href="#">Settings</a>
+                </li>-->
+                <li>
+                    <a ng-click="sidebarCtrl.logOut()">Log out</a>
+                </li>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <h3><span id="menu-toggle" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span> inTouch</h3>
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                <!-- CHANGEABLE VIEW IN SINGLE-PAGE APP -->
+                <div ng-view></div>
+                <!-- CHANGEABLE VIEW IN SINGLE-PAGE APP -->
+            </div>
+        </div>
+    </div>
+
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="bower_components/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="js/messenger.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+    <script type="text/javascript" src="js/directives.js"></script>
+    <script type="text/javascript" src="js/services.js"></script>
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+        $("#menu-toggle").toggleClass("rotated");
+        //bad code down here, find more efficient approach
+        $("html").css("overflow-x", "hidden");
+        $("#sidebar-wrapper").css("overflow-x", "hidden");
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<div class="well">
+    <div class="row">
+        <div class="col-md-12">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="findUser">Find user: </label>
+                    <input ng-model="messagesCtrl.newFriend" type="text" class="form-control" id="findUser" placeholder="Username to find">
+                </div> 
+                <button ng-click="messagesCtrl.search()" class="btn btn-primary">Find!</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="well">
+    <div class="row">
+        <div ng-repeat="user in messagesCtrl.friends" class="col-md-12">
+            <div ng-click="messagesCtrl.openDialog(user)" class="media msg-holder">
+                <div class="media-left media-middle">
+                    <img class="media-object img-circle" src="http://www.placehold.it/64x64">
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading">{{user}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
