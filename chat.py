@@ -210,7 +210,7 @@ def message_updates(dialogue_id):
 		d_dialogues[dialogue_id] = Event
 		new_message_event = d_dialogues[dialogue_id]
 
-	if new_message_event.wait(timeout = 10000000):
+	if new_message_event.wait():
 		msg = message_cache.pop(dialogue_id)
 		msg['other_online'] = 1
 		return msg
