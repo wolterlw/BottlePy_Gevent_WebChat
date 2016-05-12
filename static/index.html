@@ -13,23 +13,23 @@
 </head>
 <body>
     <div id="wrapper">
-        <div id="sidebar-wrapper">
+        <div ng-controller="SidebarController as sidebarCtrl" id="sidebar-wrapper">
             <ul class="sidebar-nav">
             	<img class="img-responsive user-photo" src="http://placehold.it/150x150">
                 <li class="sidebar-brand">
                     [Username]
                 </li>
-                <li>
+                <!--<li>
                     <a href="#">Contacts</a>
-                </li>
+                </li>-->
                 <li>
-                    <a href="messages.html">Messages</a>
+                    <a ng-click="sidebarCtrl.visitMessages()">Messages</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="#">Settings</a>
-                </li>
+                </li>-->
                 <li>
-                    <a href="log-in.html">Log out</a>
+                    <a ng-click="sidebarCtrl.logOut()">Log out</a>
                 </li>
             </ul>
         </div>

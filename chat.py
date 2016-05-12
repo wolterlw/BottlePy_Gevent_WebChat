@@ -94,9 +94,9 @@ def user_homepage(user_id,db):
 def logout(user_id,db):
 	global d_dialogues
 
-	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',user_id)
+	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',(user_id,))
 	for dialogue in dialogues:
-		d_dialogues.pop[dialogue]
+		d_dialogues.pop(dialogue[0])
 
 @route('/users/search', method='POST')
 def search_user(db):

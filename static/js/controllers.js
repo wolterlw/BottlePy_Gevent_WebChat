@@ -25,6 +25,17 @@ msngrControllers.controller('SignUpController', ['LoginService', function(LoginS
 	}
 }]);
 
+msngrControllers.controller('SidebarController', ['PathService', 'LoginService', function(PathService, LoginService) {
+	this.visitMessages = function() {
+		$("#menu-toggle").trigger("click");
+		PathService.goToMessages();
+	}
+	this.logOut = function () {
+		$("#menu-toggle").trigger("click");
+		LoginService.logOut();
+	}
+}]);
+
 msngrControllers.controller('MessagesController', ['ContactService', 'PathService', 'DialogService', function(ContactService, PathService, DialogService) {
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
