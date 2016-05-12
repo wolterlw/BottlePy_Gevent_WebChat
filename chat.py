@@ -80,7 +80,10 @@ def do_register(db):
 @route('/users/<user_id:int>', method='GET')
 def user_homepage(user_id,db):
 	"""returns a Json {'username': 'dialogue_id'} """
-	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()[0]
+	username = db.execute('SELECT username FROM users WHERE id={}'.format(user_id)).fetchone()
+	if username:
+		username = username[0]
+	else: return HTTPError('409', "Invalid user")
 
 	dialogues = db.execute(
 	'SELECT dialogues.dialogue_id, users.username FROM users INNER JOIN dialogues ON users.id = dialogues.to_id WHERE from_id = ?;',
@@ -206,25 +209,12 @@ def message_updates(dialogue_id):
 	except Exception:
 		d_dialogues[dialogue_id] = Event
 		new_message_event = d_dialogues[dialogue_id]
-	else:
-		pass
 
 	if new_message_event.wait(timeout = 10000000):
-		try:
-			msg = message_cache.pop(dialogue_id)
-		except KeyError:
-			msg = {
-				'dialogue_id': dialogue_id,
-				'message_id': -1,
-				'datetime' : time.strftime('%Y-%m-%d %H:%M:%S'),  #use request header date-time later 
-				'from': -1, 
-				'body': 'user is offline',
-				'other_online': 0
-				}
-			return msg	
-		else:
-			msg['other_online'] = 1
-			return msg
+		msg = message_cache.pop(dialogue_id)
+		msg['other_online'] = 1
+		return msg
+
 	else:
 		msg = {
 		'dialogue_id': dialogue_id,
@@ -253,4 +243,4 @@ app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
 
 if __name__ == '__main__':
 	bottle.debug(False)
-	bottle.run(app=app, server='gevent', host=host_name, port=port_num, quiet=False)
+	bottle.run(app=app, server='gevent', host=host_name, port=port_num, quiet=True)
