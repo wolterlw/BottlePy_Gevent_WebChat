@@ -1,0 +1,485 @@
+[2016-05-12 03:17:28,678] Marceline/ERROR/stderr: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py:6: RuntimeWarning: Patching more than once will result in the union of all True parameters being patched
+  monkey.patch_all()
+[2016-05-12 03:17:28,678] Marceline/INFO/locust.main: Starting Locust 0.7.3
+[2016-05-12 03:17:28,679] Marceline/INFO/locust.runners: Hatching and swarming 100 clients at the rate 1 clients/s...
+[2016-05-12 03:17:28,683] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:29,682] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:30,682] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:31,684] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:32,685] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:33,686] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:34,685] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:35,686] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:36,686] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:37,686] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:38,687] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:39,689] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:40,689] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:41,690] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:42,690] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:43,690] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:44,692] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:45,692] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:46,691] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:47,694] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:48,692] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:49,693] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:50,693] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:51,693] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:52,694] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:53,696] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:54,697] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:55,697] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:56,697] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:57,696] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:58,698] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:17:59,699] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:00,699] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:01,700] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:02,700] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:03,701] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:04,702] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:05,703] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:06,704] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:07,705] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:08,704] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:09,704] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:10,707] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:11,706] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:12,708] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:13,709] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:14,708] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:15,710] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:16,710] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:17,711] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:18,711] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:19,711] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:20,712] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:21,713] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:22,715] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:23,716] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:24,717] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:25,717] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:26,718] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:27,719] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:28,720] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:29,721] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:30,722] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:31,724] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:32,725] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:33,725] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:34,726] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:35,727] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:36,727] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:37,728] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:38,729] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:39,730] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:40,731] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:41,732] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:42,733] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:43,733] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:44,732] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:45,733] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:46,734] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:47,736] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:48,735] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:49,737] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:50,738] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:51,738] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:52,738] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:53,739] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:54,740] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:55,740] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:56,741] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:57,744] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:58,745] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:18:59,745] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:00,745] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:01,745] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:02,746] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:03,747] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:04,749] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:05,749] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:06,750] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:07,751] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:19:08,750] Marceline/INFO/locust.runners: All locusts hatched: Sender: 50, Receiver: 50
+[2016-05-12 03:19:08,750] Marceline/INFO/locust.runners: Resetting stats
+
+[2016-05-12 03:21:03,585] Marceline/ERROR/stderr: KeyboardInterrupt
+[2016-05-12 03:21:03,585] Marceline/INFO/locust.main: Shutting down (exit code 0), bye.
+[2016-05-12 03:21:09,429] Marceline/ERROR/stderr: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py:6: RuntimeWarning: Patching more than once will result in the union of all True parameters being patched
+  monkey.patch_all()
+[2016-05-12 03:21:09,430] Marceline/INFO/locust.main: Starting Locust 0.7.3
+[2016-05-12 03:21:09,430] Marceline/INFO/locust.runners: Hatching and swarming 100 clients at the rate 1 clients/s...
+[2016-05-12 03:21:09,435] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:10,433] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:11,435] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:12,436] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:13,435] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:14,437] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:15,438] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:16,437] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:17,440] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:18,439] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:19,440] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:20,442] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:21,441] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:22,444] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:23,444] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:24,444] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:25,444] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:26,446] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:27,446] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:28,447] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:29,448] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:30,449] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:31,450] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:32,451] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:33,453] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:34,453] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:35,454] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:36,455] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:37,455] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:38,455] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:39,455] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:40,457] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:41,457] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:42,458] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:43,457] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:44,458] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:45,459] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:46,460] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:47,461] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:48,462] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:49,462] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:50,462] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:51,463] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:52,463] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:53,465] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:54,465] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:55,465] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:56,465] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:57,467] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:58,466] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:21:59,469] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:00,469] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:01,471] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:02,471] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:03,472] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:04,472] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:05,474] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:06,474] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:07,474] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:08,475] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:09,476] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:10,477] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:11,476] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:12,478] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:13,479] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:14,478] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:15,480] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:16,481] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:17,482] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:18,481] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:19,482] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:20,484] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:21,483] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:22,485] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:23,486] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:24,486] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:25,487] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:26,487] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:27,489] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:28,490] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:29,490] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:30,491] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:31,491] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:32,492] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:33,493] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:34,492] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:35,493] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:36,494] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:37,494] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:38,495] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:39,497] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:40,496] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:41,498] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:42,499] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:43,499] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:44,500] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:45,501] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:46,502] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:47,502] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:48,503] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:22:49,500] Marceline/INFO/locust.runners: All locusts hatched: Sender: 50, Receiver: 50
+[2016-05-12 03:22:49,500] Marceline/INFO/locust.runners: Resetting stats
+
+[2016-05-12 03:22:55,981] Marceline/ERROR/stderr: KeyboardInterrupt
+[2016-05-12 03:22:55,981] Marceline/INFO/locust.main: Shutting down (exit code 0), bye.
+[2016-05-12 03:23:03,966] Marceline/ERROR/stderr: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py:6: RuntimeWarning: Patching more than once will result in the union of all True parameters being patched
+  monkey.patch_all()
+[2016-05-12 03:23:03,967] Marceline/INFO/locust.main: Starting Locust 0.7.3
+[2016-05-12 03:23:03,967] Marceline/INFO/locust.runners: Hatching and swarming 100 clients at the rate 1 clients/s...
+[2016-05-12 03:23:03,972] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:04,969] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:05,971] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:06,972] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:07,972] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:08,972] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:09,975] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:10,975] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:11,975] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:12,975] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:13,977] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:14,977] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:15,978] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:16,978] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:17,981] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:18,981] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:19,983] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:20,983] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:21,984] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:22,984] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:23,987] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:24,987] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:25,988] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:26,989] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:27,990] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:28,991] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:29,993] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:30,993] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:31,995] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:32,995] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:33,996] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:34,997] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:35,998] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:36,998] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:37,999] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:38,999] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:40,000] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:41,001] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:42,003] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:43,004] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:44,004] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:45,004] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:46,004] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:47,005] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:48,007] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:49,007] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:50,009] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:51,008] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:52,010] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:53,011] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:54,012] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:55,013] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:56,014] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:57,014] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:58,016] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:23:59,017] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:00,016] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:01,017] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:02,017] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:03,019] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:04,020] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:05,021] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:06,022] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:07,022] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:08,023] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:09,023] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:10,024] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:11,025] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:12,025] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:13,026] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:14,028] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:15,029] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:16,030] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:17,030] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:18,031] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:19,032] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:20,034] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:21,034] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:22,034] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:23,034] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:24,035] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:25,036] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:26,037] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:27,038] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:28,038] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:29,038] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:30,040] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:31,040] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:32,042] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:33,042] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:34,042] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:35,043] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:36,045] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:37,045] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:38,047] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:39,048] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:39,053] Marceline/ERROR/stderr: Traceback (most recent call last):
+[2016-05-12 03:24:39,054] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/gevent/greenlet.py", line 534, in run
+[2016-05-12 03:24:39,054] Marceline/ERROR/stderr: result = self._run(*self.args, **self.kwargs)
+[2016-05-12 03:24:39,055] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/runners.py", line 113, in start_locust
+[2016-05-12 03:24:39,055] Marceline/ERROR/stderr: locust().run()
+[2016-05-12 03:24:39,055] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/core.py", line 102, in run
+[2016-05-12 03:24:39,056] Marceline/ERROR/stderr: self.task_set(self).run()
+[2016-05-12 03:24:39,056] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/core.py", line 251, in run
+[2016-05-12 03:24:39,056] Marceline/ERROR/stderr: self.on_start()
+[2016-05-12 03:24:39,056] Marceline/ERROR/stderr: File "/home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py", line 111, in on_start
+[2016-05-12 03:24:39,057] Marceline/ERROR/stderr: else:
+[2016-05-12 03:24:39,057] Marceline/ERROR/stderr: File "/usr/lib/python2.7/dist-packages/requests/models.py", line 778, in json
+[2016-05-12 03:24:39,057] Marceline/ERROR/stderr: if not self.encoding and len(self.content) > 3:
+[2016-05-12 03:24:39,058] Marceline/ERROR/stderr: TypeError: object of type 'NoneType' has no len()
+[2016-05-12 03:24:39,058] Marceline/ERROR/stderr: <Greenlet at 0x7fb5acee5410: start_locust(<class 'locustfile.Receiver'>)> failed with TypeError
+[2016-05-12 03:24:40,048] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:41,048] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:41,692] Marceline/ERROR/stderr: KeyboardInterrupt
+[2016-05-12 03:24:41,693] Marceline/INFO/locust.main: Shutting down (exit code 0), bye.
+[2016-05-12 03:24:58,368] Marceline/ERROR/stderr: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py:6: RuntimeWarning: Patching more than once will result in the union of all True parameters being patched
+  monkey.patch_all()
+[2016-05-12 03:24:58,368] Marceline/INFO/locust.main: Starting Locust 0.7.3
+[2016-05-12 03:24:58,369] Marceline/INFO/locust.runners: Hatching and swarming 100 clients at the rate 1 clients/s...
+[2016-05-12 03:24:58,373] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:24:59,372] Marceline/INFO/stdout: >
+[2016-05-12 03:24:59,373] Marceline/INFO/stdout: 
+[2016-05-12 03:24:59,373] Marceline/INFO/stdout: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py(99)on_start()
+-> with self.client.post('register', json = data, catch_response=True) as resp:
+[2016-05-12 03:24:59,373] Marceline/INFO/stdout: 
+[2016-05-12 03:24:59,373] Marceline/INFO/stdout: (Pdb)
+[2016-05-12 03:25:17,987] Marceline/ERROR/stderr: Traceback (most recent call last):
+[2016-05-12 03:25:17,987] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/gevent/greenlet.py", line 534, in run
+[2016-05-12 03:25:17,988] Marceline/ERROR/stderr: result = self._run(*self.args, **self.kwargs)
+[2016-05-12 03:25:17,988] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/runners.py", line 113, in start_locust
+[2016-05-12 03:25:17,989] Marceline/ERROR/stderr: locust().run()
+[2016-05-12 03:25:17,989] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/core.py", line 102, in run
+[2016-05-12 03:25:17,989] Marceline/ERROR/stderr: self.task_set(self).run()
+[2016-05-12 03:25:17,989] Marceline/ERROR/stderr: File "/usr/local/lib/python2.7/dist-packages/locust/core.py", line 251, in run
+[2016-05-12 03:25:17,989] Marceline/ERROR/stderr: self.on_start()
+[2016-05-12 03:25:17,990] Marceline/ERROR/stderr: File "/home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py", line 99, in on_start
+[2016-05-12 03:25:17,990] Marceline/ERROR/stderr: with self.client.post('register', json = data, catch_response=True) as resp:
+[2016-05-12 03:25:17,990] Marceline/ERROR/stderr: File "/home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py", line 99, in on_start
+[2016-05-12 03:25:17,990] Marceline/ERROR/stderr: with self.client.post('register', json = data, catch_response=True) as resp:
+[2016-05-12 03:25:17,990] Marceline/ERROR/stderr: File "/usr/lib/python2.7/bdb.py", line 49, in trace_dispatch
+[2016-05-12 03:25:18,060] Marceline/ERROR/stderr: return self.dispatch_line(frame)
+[2016-05-12 03:25:18,060] Marceline/ERROR/stderr: File "/usr/lib/python2.7/bdb.py", line 67, in dispatch_line
+[2016-05-12 03:25:18,060] Marceline/ERROR/stderr: self.user_line(frame)
+[2016-05-12 03:25:18,060] Marceline/ERROR/stderr: File "/usr/lib/python2.7/pdb.py", line 158, in user_line
+[2016-05-12 03:25:18,068] Marceline/ERROR/stderr: self.interaction(frame, None)
+[2016-05-12 03:25:18,068] Marceline/ERROR/stderr: File "/usr/lib/python2.7/pdb.py", line 210, in interaction
+[2016-05-12 03:25:18,068] Marceline/ERROR/stderr: self.cmdloop()
+[2016-05-12 03:25:18,068] Marceline/ERROR/stderr: File "/usr/lib/python2.7/cmd.py", line 130, in cmdloop
+[2016-05-12 03:25:18,069] Marceline/ERROR/stderr: line = raw_input(self.prompt)
+[2016-05-12 03:25:18,069] Marceline/ERROR/stderr: KeyboardInterrupt
+[2016-05-12 03:25:18,069] Marceline/ERROR/stderr: <Greenlet at 0x7fdf920bab90: start_locust(<class 'locustfile.Receiver'>)> failed with KeyboardInterrupt
+[2016-05-12 03:25:18,069] Marceline/INFO/locust.main: Shutting down (exit code 0), bye.
+[2016-05-12 03:36:16,483] Marceline/ERROR/stderr: /home/wolterlw/Dropbox/Eug_collab/Bottle_of_tests/v3.0/locust/locustfile.py:6: RuntimeWarning: Patching more than once will result in the union of all True parameters being patched
+  monkey.patch_all()
+[2016-05-12 03:36:16,484] Marceline/INFO/locust.main: Starting Locust 0.7.3
+[2016-05-12 03:36:16,484] Marceline/INFO/locust.runners: Hatching and swarming 100 clients at the rate 1 clients/s...
+[2016-05-12 03:36:16,488] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:17,487] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:18,487] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:19,487] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:20,488] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:21,488] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:22,489] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:23,491] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:24,491] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:25,494] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:26,492] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:27,494] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:28,494] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:29,495] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:30,495] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:31,496] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:32,497] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:33,498] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:33,543] Marceline/INFO/stdout: {"body": "Mauris", "from": 49, "other_online": 1, "datetime": "2016-05-12 03:36:33", "dialogue_id": 1748, "message_id": 4479}
+[2016-05-12 03:36:33,543] Marceline/INFO/stdout: 
+[2016-05-12 03:36:34,499] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:35,500] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:36,500] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:37,502] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:38,501] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:39,503] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:40,505] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:41,504] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:42,506] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:43,506] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:44,506] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:45,507] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:46,508] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:47,510] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:48,511] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:49,511] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:50,512] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:51,514] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:52,513] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:53,513] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:54,514] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:55,515] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:56,515] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:57,516] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:58,517] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:36:59,517] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:00,522] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:01,520] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:02,521] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:03,522] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:04,523] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:05,525] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:06,524] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:07,526] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:08,526] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:09,527] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:10,528] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:11,530] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:12,530] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:13,532] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:14,533] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:15,533] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:16,533] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:17,535] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:18,535] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:19,537] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:20,537] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:21,538] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:22,538] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:23,540] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:24,541] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:25,541] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:26,542] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:27,543] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:28,544] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:29,545] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:30,546] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:31,547] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:32,548] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:33,548] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:34,547] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:35,549] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:36,551] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:37,552] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:38,550] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:39,551] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:40,552] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:41,552] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:42,553] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:43,554] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:44,555] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:45,555] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:46,555] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:47,556] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:48,555] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:49,557] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:50,559] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:51,559] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:52,560] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:53,560] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:54,561] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:55,561] Marceline/INFO/urllib3.connectionpool: Starting new HTTP connection (1): localhost
+[2016-05-12 03:37:56,560] Marceline/INFO/locust.runners: All locusts hatched: Sender: 50, Receiver: 50
+[2016-05-12 03:37:56,560] Marceline/INFO/locust.runners: Resetting stats
+
+[2016-05-12 03:38:29,529] Marceline/ERROR/stderr: KeyboardInterrupt
+[2016-05-12 03:38:29,529] Marceline/INFO/locust.main: Shutting down (exit code 0), bye.

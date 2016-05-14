@@ -20,7 +20,7 @@ from bottle import run, route, get, post, static_file, template, request, respon
 from bottle.ext import sqlite
 from time import strftime
 
-host_name = 'localhost'
+host_name = '127.0.0.1'
 port_num = 8080
 d_id_pos = len('http://{}:{}/dialogues/'.format(host_name,port_num))
 num_messages = 20 #number of messages sent when a dialogue is initialized
@@ -92,6 +92,8 @@ def user_homepage(user_id,db):
 
 @route('/users/<user_id:int>', method='DELETE')
 def logout(user_id,db):
+	pdb.set_trace()
+
 	global d_dialogues
 
 	dialogues = db.execute('SELECT dialogue_id FROM dialogues WHERE from_id=?',(user_id,))
@@ -148,7 +150,7 @@ def dialogue(dialogue_id,db):
 	from_id = int( request.json['id'] )
 	to_name = db.execute('SELECT users.username FROM dialogues, users WHERE dialogues.dialogue_id = ? and dialogues.from_id = users.id and users.id != ?;',(dialogue_id,from_id)).fetchone()[0]
 
-	messages = db.execute('SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY t_sent ASC LIMIT ?;', (dialogue_id,num_messages) ).fetchall()
+	messages = db.execute('SELECT * FROM (SELECT t_sent, from_id, body FROM messages WHERE dialogue_id = ? ORDER BY message_id DESC LIMIT ?) ORDER BY t_sent ASC;', (dialogue_id,num_messages) ).fetchall()
 	if messages:
 		messages_json = [ {"datetime" : message[0], "from_id": message[1], "body": message[2]} for message in messages ]
 		#and sending it to the app
@@ -183,7 +185,9 @@ def message_new(db,dialogue_id):
 		'body': request.json['body'],
 		'other_online': other_online
 		}
+
 	message_cache[dialogue_id] = msg
+	message_cache[-dialogue_id] = msg
 	
 	db.execute('INSERT INTO messages (message_id,dialogue_id,body,t_sent,from_id) VALUES(?,?,?,?,?);',(msg['message_id'], msg['dialogue_id'], msg['body'],msg['datetime'], from_id) ) 
 	db.execute('UPDATE dialogues SET num_messages = num_messages + 1 WHERE dialogue_id=? and from_id=?', (msg['dialogue_id'], from_id) )
@@ -197,8 +201,7 @@ def message_new(db,dialogue_id):
 
 @route('/dialogues/<dialogue_id:int>/get_messages', method='POST')
 def message_updates(dialogue_id):
-	#pdb.set_trace()
-	from_id = int(request.json['id'])
+	# caller_id = int(request.json['id'])
 	global d_dialogues
 	global message_cache
 	try:
@@ -208,7 +211,9 @@ def message_updates(dialogue_id):
 		new_message_event = d_dialogues[dialogue_id]
 
 	if new_message_event.wait(timeout=600):
-		msg = message_cache.pop(dialogue_id)
+		if dialogue_id in message_cache:
+			msg = message_cache.pop(dialogue_id)
+		else: msg = message_cache.pop(-dialogue_id)
 		msg['other_online'] = 1
 		return msg
 
@@ -239,5 +244,5 @@ app = bottle.app()
 app.install(sqlite.Plugin(dbfile='./data/chatData.db'))
 
 if __name__ == '__main__':
-	bottle.debug(False)
+	bottle.debug(True)
 	bottle.run(app=app, server='gevent', host=host_name, port=port_num, quiet=False)
