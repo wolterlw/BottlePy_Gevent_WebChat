@@ -74,7 +74,13 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 
 msngrControllers.controller('DialogController', ['DialogService', 'AuthService', '$http', function(DialogService, AuthService, $http) {
 	$("footer.footer textarea").focus();
-
+	$("footer.footer textarea").bind("keypress", function (event) {
+        if(event.which === 13) {
+            self.sendMessage();
+            event.preventDefault();
+        }
+    });
+    
 	var self = this;
 	this.msgs;
 	this.msgBody = "";
