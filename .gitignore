@@ -3,3 +3,7 @@
 bower_components
 node_modules
 data
+LoremIpsum
+
+*.txt
+locustfile.+.py

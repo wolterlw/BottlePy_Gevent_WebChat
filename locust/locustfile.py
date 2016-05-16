@@ -1,4 +1,4 @@
-from locust import HttpLocust, TaskSet, task
+from locust import HttpLocust, TaskSet, task, InterruptTaskSet
 import pdb
 import random
 from gevent import queue as qu
@@ -24,16 +24,21 @@ class ChatUserTaskSet(TaskSet):
 		username = str( random.randint(0,n_users) )
 		password = "pass"+username
 
-		with self.client.post('register',
-		 json={'username': username, 'password': password}, catch_response=True) as resp:
-			if resp.status_code == 409:
-				self.client.id = str(self.client.post('login', json={'username': username, 'password': password}, catch_response=True ).json()['id'])
-				resp.success()
-			if resp.status_code == 200:
-				self.client.id = str(resp.json()['id'])
-				resp.success()
-			else:
-				resp.failure()
+		with self.client.post('register', json={'username': username, 'password': password}, catch_response=True) as resp:
+			if resp:
+				if resp.status_code == 409:
+					self.client.id = str(self.client.post('login', json={'username': username, 'password': password}, catch_response=True ).json()['id'])
+					resp.success()
+				else:
+					if resp.status_code == 200:
+						self.client.id = str(resp.json()['id'])
+						resp.success()
+					else:
+						resp.failure("Error {0}".format(resp.status_code))
+						raise InterruptTaskSet()
+			else: 
+				resp.failure('Got no response')
+				
 
 	def open_dialogue(self,other_id):
 		with self.client.put('dialogues/'+other_id, json={'id': self.client.id}, catch_response=True, name='PUT /dialogues/to_id') as resp:
@@ -75,7 +80,9 @@ class SenderTaskSet(ChatUserTaskSet):
 			self.client.post('dialogues/{0}/messages_text'.format(d_id), 
 				json={'id': self.client.id, 
 					'datetime': strftime('%Y-%m-%d %H:%M:%S'),
-					'body': word_gen.next()})
+					'body': word_gen.next()},
+					name='/dialogues/dialogue_id/messages_text')
+			waiters.remove(d_id)
 
 	def on_start(self):
 		global senders, recievers
@@ -98,4 +105,4 @@ class Reciever(HttpLocust):
 	"""And one who receivers"""
 	task_set = RecieverTaskSet #ChatUserTaskSet
 	min_wait = 10
-	max_wait = 10000
+	max_wait = 100000

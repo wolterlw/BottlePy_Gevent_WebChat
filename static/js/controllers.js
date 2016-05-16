@@ -13,6 +13,7 @@ msngrControllers.controller('SignInController', ['LoginService', function(LoginS
 	this.toggleLogin = function() {
         $(".form-signin").remove();
         $(".form-signup").fadeIn();
+        $("#inputUsername").focus();
 	}
 }]);
 msngrControllers.controller('SignUpController', ['LoginService', function(LoginService) {
@@ -39,6 +40,7 @@ msngrControllers.controller('SidebarController', ['PathService', 'LoginService',
 msngrControllers.controller('MessagesController', ['ContactService', 'PathService', 'DialogService', function(ContactService, PathService, DialogService) {
 	//have no idea where it supposed to be
 	$("#menu-toggle").fadeIn(0);
+	$("#findUser").focus();
 
 	var self = this;
 	this.newFriend = "";
@@ -71,6 +73,14 @@ msngrControllers.controller('MessagesController', ['ContactService', 'PathServic
 }]);
 
 msngrControllers.controller('DialogController', ['DialogService', 'AuthService', '$http', function(DialogService, AuthService, $http) {
+	$("footer.footer textarea").focus();
+	$("footer.footer textarea").bind("keypress", function (event) {
+        if(event.which === 13) {
+            self.sendMessage();
+            event.preventDefault();
+        }
+    });
+    
 	var self = this;
 	this.msgs;
 	this.msgBody = "";
